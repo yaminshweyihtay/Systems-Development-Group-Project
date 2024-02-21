@@ -1,7 +1,7 @@
 import csv
 import tkinter as tk
 import tkinter.ttk as ttk
-from tkinter import filedialog, HORIZONTAL, NO, X, VERTICAL, LEFT, RIGHT, BOTH, BOTTOM
+from tkinter import filedialog, HORIZONTAL, NO, X, VERTICAL, RIGHT, BOTH, BOTTOM
 import tkinter.messagebox as tkm
 
 from main import initialise_objects

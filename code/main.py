@@ -13,7 +13,7 @@ def initialise_objects(file_path):
             for row in csv_reader:
                 # append encounterId, end tidal co2, feed vol, feed vol adm, fio2, fio2_ratio, Insp_time
                 # oxygen_flow_rate, peep, pip, resp rate, sip, tidal vol, tidal vol actual, tidal vol kg
-                # tidal vol spon and bmi
+                # tidal vol spon and bmi to patient object
                 patients.append(
                     Patient(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10],
                             row[11], row[12], row[13], row[14], row[15], row[16], row[17])
