@@ -1,7 +1,7 @@
 import csv
 import tkinter as tk
 import tkinter.ttk as ttk
-from tkinter import filedialog, HORIZONTAL, NO, X, VERTICAL, Y, LEFT, RIGHT, BOTTOM
+from tkinter import filedialog, HORIZONTAL, NO, X, VERTICAL, RIGHT, BOTH, BOTTOM
 import tkinter.messagebox as tkm
 
 from main import initialise_objects
@@ -19,25 +19,25 @@ class MainGui(tk.Tk, ):
 
     def create_widgets(self):
         csv_viewer = ttk.Treeview(self, selectmode="browse", show="headings")
-        csv_viewer.pack(padx=40, pady=40, fill="both", expand=True)
 
         # code for horizontal scroll bar
         x_scroll_bar = ttk.Scrollbar(self, orient=HORIZONTAL)
         x_scroll_bar.configure(command=csv_viewer.xview)
         csv_viewer.configure(xscrollcommand=x_scroll_bar.set)
-        x_scroll_bar.pack(fill=X)
 
         # code for vertical scroll bar
         y_scroll_bar = ttk.Scrollbar(self, orient=VERTICAL, command=csv_viewer.yview)
         csv_viewer.configure(yscrollcommand=y_scroll_bar.set)
-        y_scroll_bar.pack(side=RIGHT, fill=Y)
+        y_scroll_bar.pack(side=RIGHT, fill=BOTH)
+        csv_viewer.pack(padx=40, pady=40, expand=True, fill=BOTH)
+        x_scroll_bar.pack(fill=X)
 
         status_label = tk.Label(self, text="", padx=20, pady=10)
         status_label.pack()
 
         open_button = ttk.Button(self, text="Open CSV File",
                                  command=lambda: self.open_csv_file(csv_viewer, status_label))
-        open_button.pack(padx=20, pady=10)
+        open_button.pack(padx=20, pady=10, side=BOTTOM)
 
     def open_csv_file(self, csv_viewer, status_label):
         self.file_path = filedialog.askopenfilename(title="Open CSV File", filetypes=[("CSV files", "*.csv")])
