@@ -1,13 +1,14 @@
 import csv
+from ButtonBar import ButtonBar
 import tkinter as tk
 import tkinter.ttk as ttk
-from tkinter import filedialog, HORIZONTAL, NO, X, VERTICAL, RIGHT, BOTH, BOTTOM
+from tkinter import filedialog, HORIZONTAL, NO, X, VERTICAL, RIGHT, LEFT, BOTH, TOP, BOTTOM, NW
 import tkinter.messagebox as tkm
 
 from main import initialise_objects
 
 
-class MainGui(tk.Tk, ):
+class MainGui(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("CSV File Viewer")
@@ -15,6 +16,8 @@ class MainGui(tk.Tk, ):
         self.minsize(300, 400)
         self.file_path = None
         self.patients = []
+        button_bar = ButtonBar(self)
+        button_bar.pack(padx=40, pady=15, side=TOP, anchor=NW, )
         self.create_widgets()
 
     def create_widgets(self):
@@ -29,7 +32,7 @@ class MainGui(tk.Tk, ):
         y_scroll_bar = ttk.Scrollbar(self, orient=VERTICAL, command=csv_viewer.yview)
         csv_viewer.configure(yscrollcommand=y_scroll_bar.set)
         y_scroll_bar.pack(side=RIGHT, fill=BOTH)
-        csv_viewer.pack(padx=40, pady=40, expand=True, fill=BOTH)
+        csv_viewer.pack(padx=40, expand=True, fill=BOTH)
         x_scroll_bar.pack(fill=X)
 
         status_label = tk.Label(self, text="", padx=20, pady=10)
