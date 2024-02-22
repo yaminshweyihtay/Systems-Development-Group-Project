@@ -9,3 +9,11 @@ Patient.py,1\5\153e320c515c3dff630688c56f5b620addc20dd1
 MainGui.py,2\9\292485148ed78c3c29f7bfa92da65770472e6b50
 <
 ButtonBar.py,8\b\8b682103bb4b99cb2326b8b930210dd4ffc1dd9b
+<
+CsvViewer.py,3\b\3b4e8b3c60bdebdbf098f3b3a3028329358aa46b
+:
+
+MainGUI.py,e\e\ee9f35e5e2f5514a512ec50c1e56a3bf146da92d
+:
+
+Sidebar.py,f\6\f6d5ba6da49dcd72d918bf82cae8252933c4ee81
