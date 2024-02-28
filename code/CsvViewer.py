@@ -42,6 +42,9 @@ class CsvViewer(tk.Frame):
         self.file_path = filedialog.askopenfilename(title="Open CSV File", filetypes=[("CSV files", "*.csv")])
         if self.file_path:
             self.patients = initialise_objects(self.file_path)
+            # stop if incorrect csv format
+            if not self.patients:
+                return False
             self.display_csv_data(csv_viewer, status_label)
 
     def display_csv_data(self, csv_viewer, status_label):

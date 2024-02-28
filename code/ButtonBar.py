@@ -1,7 +1,5 @@
-import tkinter as tk
 import tkinter.ttk as ttk
-from tkinter import filedialog, HORIZONTAL, NO, X, VERTICAL, RIGHT, LEFT, BOTH, TOP, BOTTOM, NW
-import tkinter.messagebox as tkm
+from tkinter import LEFT
 
 
 class ButtonBar(ttk.Frame):
@@ -10,4 +8,4 @@ class ButtonBar(ttk.Frame):
         filter_button = ttk.Button(self, text="Filter")
         filter_button.pack(side=LEFT)
         sort_button = ttk.Button(self, text="Sort")
-        sort_button.pack(side=LEFT, padx = 15)
+        sort_button.pack(side=LEFT, padx=15)
