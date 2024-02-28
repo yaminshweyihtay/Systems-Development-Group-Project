@@ -2,9 +2,11 @@ import tkinter
 from tkinter import LEFT, Y
 from Sidebar import Sidebar
 from CsvViewer import CsvViewer
+from main import initialise_objects
 
 
 class MainGui(tkinter.Tk):
+    initialise_objects()
     def __init__(self):
         super().__init__()
         self.geometry("800x600")
@@ -23,3 +25,4 @@ class MainGui(tkinter.Tk):
 
 app = MainGui()
 app.mainloop()
+
