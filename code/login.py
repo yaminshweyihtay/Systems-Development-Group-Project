@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
-from main import initialise_objects, login
+from tkinter import LEFT, RIGHT, BOTTOM, X
+from main import login
 
 # Setting the default font
 font = ("Arial", 14)
@@ -10,31 +11,32 @@ font = ("Arial", 14)
 class LoginGUI(tk.Tk):
     def __init__(self):
         super().__init__()
-        # setting the window size and making the window unable to be resized
+        # setting the window size
         self.title("Login")
         self.geometry("400x250")
-        self.resizable(0, 0)
+        self.minsize(180, 180)
         # placing the widgets on the GUI
         self.create_widgets()
-        self.columnconfigure(0, weight=1)
 
     def create_widgets(self):
         # defining the text input variables
         username = tk.StringVar()
         password = tk.StringVar()
-        login_display = {}
-        login_display["usernameLabel"] = ttk.Label(text="Username:", font=font)
-        login_display["usernameInput"] = ttk.Entry(textvariable=username, font=font)
-        login_display["passwordLabel"] = ttk.Label(text="Password:", font=font)
-        login_display["passwordInput"] = ttk.Entry(textvariable=password, show="*", font=font)
-        login_display["submitButton"] = ttk.Button(text="Submit", command=lambda: login(username.get(), password.get(), app))
-        index = 0
-        # displaying the widgets
-        for display in login_display.values():
-            display.grid(row=index, columnspan=2, padx=20, pady=3, sticky="ew")
-            index += 1
+        username_frame = ttk.Frame(self)
+        password_frame = ttk.Frame(self)
+        username_label = ttk.Label(username_frame, text="Username:", font=font)
+        username_input = ttk.Entry(username_frame, textvariable=username, font=font)
+        password_label = ttk.Label(password_frame, text="Password:", font=font)
+        password_input = ttk.Entry(password_frame, textvariable=password, show="*", font=font)
+        login_button = ttk.Button(self, text="Submit", command=lambda: login(username.get(), password.get(), app))
+        username_label.pack(side=LEFT)
+        username_input.pack(side=RIGHT, expand=True, fill=X)
+        password_label.pack(side=LEFT)
+        password_input.pack(side=RIGHT, expand=True, fill=X)
+        username_frame.pack(fill=X, padx=5, pady=5, expand=True)
+        password_frame.pack(fill=X, padx=5, pady=5, expand=True)
+        login_button.pack(side=BOTTOM, fill=X, expand=True)
 
 
-initialise_objects()
 app = LoginGUI()
 app.mainloop()

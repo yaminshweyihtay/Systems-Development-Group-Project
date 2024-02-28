@@ -2,22 +2,27 @@ import tkinter.messagebox as tkm
 from Patient import Patient
 from dbFunc import insert, select
 import csv
-import bcrypt
 import os
+import bcrypt
 from User import User
 
 user_list = []
-FILE_NAME = "currentUser.pkl"
 
 
-# reads csv and appends the patient object list
+# reads csv and appends the patient object list, reads in user info
 def initialise_objects(file_path):
-    patients = []
+    global user_list
     user_list.clear()
-    users = select('users')
-    for user in users:
-        user_list.append(User(user[1], user[2], user[3]))
+    patients = fetch_patients(file_path)
+    try:
+        user_list = fetch_user_list()
+    except Exception as e:
+        print(e)
+        return patients
 
+
+def fetch_patients(file_path):
+    patients = []
     if file_path:
         try:
             with open(file_path, 'r', newline='') as file:
@@ -35,6 +40,14 @@ def initialise_objects(file_path):
             tkm.showerror("File not found", "The file at ", file_path, " was not found!")
             return False
         return patients
+
+
+def fetch_user_list():
+    users = select('users')
+    # append user_id, user_name, password, salt to the user object
+    for user in users:
+        user_list.append(User(user[0], user[1], user[2], user[3]))
+    return user_list
 
 
 # function for logging in
@@ -78,12 +91,7 @@ def login(username=None, password=None, app=None):
 
 
 def logout(app):
-    initialise_objects()
-    global currentUser
     app.master.destroy()
-    currentUser = None
-    os.remove(FILE_NAME)
-    os.system('python login.py')
 
 
 def create_user(user, pswd):
@@ -104,6 +112,6 @@ def create_user(user, pswd):
 
 
 def open_main_menu(app):
-    initialise_objects()
+    initialise_objects(None)
     app.destroy()
     os.system('python MainGui.py')

@@ -2,7 +2,6 @@ import tkinter as tk
 from tkinter import LEFT, Y, BOTH
 from Sidebar import Sidebar
 from CsvViewer import CsvViewer
-from main import initialise_objects
 
 
 class MainGui(tk.Tk):
@@ -31,4 +30,3 @@ class MainGui(tk.Tk):
 
 app = MainGui()
 app.mainloop()
-
