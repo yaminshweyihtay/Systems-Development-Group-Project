@@ -10,13 +10,13 @@ user_list = []
 FILE_NAME = "currentUser.pkl"
 
 class User:
-    def __init__(self, user_name=None, passwd=None, salt=None):
-        self.__user_name = user_name
+    def __init__(self, username=None, passwd=None, salt=None):
+        self.__username = username
         self.__password = passwd
         self.__salt = salt
 
-    def get_user_name(self):
-        return self.__user_name
+    def get_username(self):
+        return self.__username
 
     def get_password(self):
         return self.__password
@@ -24,8 +24,8 @@ class User:
     def get_salt(self):
         return self.__salt
 
-    def set_user_name(self, user_name):
-        self.__user_name = user_name
+    def set_username(self, username):
+        self.__username = username
 
     def set_password(self, new_password):
         self.__password = new_password
@@ -39,7 +39,7 @@ def initialise_objects(file_path=None):
     user_list.clear()
     users = select('users')
     for user in users:
-        user_list.append(User(user[0], user[1]))
+        user_list.append(User(user[1], user[2], user[3]))
 
     if file_path:
         try:
@@ -60,13 +60,13 @@ def initialise_objects(file_path=None):
         return patients
 
 
+
 def save_current_user():
     with open(FILE_NAME, 'wb') as file:
         pickle.dump(currentUser, file)
 
-
 # function for logging in
-def login(username=None, password=None):
+def login(username=None, password=None, app=None):
     # making sure current user is assigned correctly
     global currentUser
     user_to_login = None
@@ -86,8 +86,6 @@ def login(username=None, password=None):
     if user_to_login is None:
         tkm.showerror("Error", "User not found!")
     else:
-        if username is not None:
-            return True
         # checking if the password is correct
         password = password.encode('utf-8')
         salt = user_to_login.get_salt()
@@ -102,11 +100,19 @@ def login(username=None, password=None):
             # if password is correct assign the current user to the selected user object
             currentUser = user_to_login
             save_current_user()
-            #open_main_menu(app)
+            open_main_menu(app)
             return True
         else:
             tkm.showerror("Failure", "Password incorrect!")
             return False
+        
+def logout(app):
+    initialise_objects()
+    global currentUser
+    app.master.destroy()
+    currentUser = None
+    os.remove(FILE_NAME)
+    os.system('python login.py')
         
 def create_user(user, pswd):
     salt = bcrypt.gensalt()
@@ -125,7 +131,7 @@ def create_user(user, pswd):
         tkm.showinfo("Add successful!", "The user was added successfully!")
 
 def open_main_menu(app):
-    initialise_objects(1)
+    initialise_objects()
     app.destroy()
     os.system('python MainGui.py')
 

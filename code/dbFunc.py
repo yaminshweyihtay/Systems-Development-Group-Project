@@ -107,8 +107,6 @@ def insert(table_name, columns, values):
             return False
         placeholders = ', '.join(['%s'] * len(values))
         statement = f"INSERT INTO {table_name} ({', '.join(columns)}) VALUES ({placeholders})"
-        print(statement)
-        print(values)
         try:
             dbcursor.execute(statement, values)
             conn.commit()

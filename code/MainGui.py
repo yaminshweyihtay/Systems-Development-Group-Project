@@ -5,7 +5,7 @@ from CsvViewer import CsvViewer
 from main import initialise_objects
 
 
-class MainGui(tkinter.Tk):
+class MainGui(tk.Tk):
     initialise_objects()
     def __init__(self):
         super().__init__()
