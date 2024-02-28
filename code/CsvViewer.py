@@ -13,11 +13,12 @@ class CsvViewer(tk.Frame):
         super().__init__(container)
         self.file_path = None
         self.patients = []
-        button_bar = ButtonBar(self)
-        button_bar.pack(padx=40, pady=15, side=TOP, anchor=NW)
+        self.csv_parameters = []
         self.create_widgets()
 
     def create_widgets(self):
+        button_bar = ButtonBar(self, self.get_csv_parameters)
+        button_bar.pack(padx=40, pady=15, side=TOP, anchor=NW)
         csv_viewer = ttk.Treeview(self, selectmode="browse", show="headings")
         # code for horizontal scroll bar
         x_scroll_bar = ttk.Scrollbar(self, orient=HORIZONTAL)
@@ -55,7 +56,8 @@ class CsvViewer(tk.Frame):
                 csv_viewer.delete(*csv_viewer.get_children())  # Clear the current data
                 csv_viewer["columns"] = header
                 for col in header:
-                    csv_viewer.heading(col, text=col)
+                    csv_viewer.heading(col, text=col, command=lambda c=col: self.sort_tree_view(csv_viewer, c, True))
+                    self.csv_parameters.append(col)
                     csv_viewer.column(col, width=100, stretch=NO)
                 # display information from objects
                 for patient in self.patients:
@@ -82,3 +84,16 @@ class CsvViewer(tk.Frame):
 
         except Exception as e:
             tkm.showerror("Error", str(e))
+
+    def sort_tree_view(self, tree_view, column, reverse):
+        non_empty_rows = [k for k in tree_view.get_children('') if tree_view.set(k, column)]
+        l = [(tree_view.set(k, column), k) for k in non_empty_rows]
+        l.sort(key=lambda t: float(t[0]), reverse=reverse)
+        for index, (val, k) in enumerate(l):
+            tree_view.move(k, '', index)
+
+        tree_view.heading(column,
+                          command=lambda: self.sort_tree_view(tree_view, column, not reverse))
+
+    def get_csv_parameters(self):
+        return self.csv_parameters

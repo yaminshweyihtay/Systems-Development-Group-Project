@@ -1,40 +1,17 @@
 import tkinter.messagebox as tkm
 from Patient import Patient
-from dbFunc import *
+from dbFunc import insert, select
 import csv
-import pickle
 import bcrypt
 import os
+from User import User
 
 user_list = []
 FILE_NAME = "currentUser.pkl"
 
-class User:
-    def __init__(self, username=None, passwd=None, salt=None):
-        self.__username = username
-        self.__password = passwd
-        self.__salt = salt
-
-    def get_username(self):
-        return self.__username
-
-    def get_password(self):
-        return self.__password
-
-    def get_salt(self):
-        return self.__salt
-
-    def set_username(self, username):
-        self.__username = username
-
-    def set_password(self, new_password):
-        self.__password = new_password
-
-    def set_salt(self, salt):
-        self.__salt = salt
 
 # reads csv and appends the patient object list
-def initialise_objects(file_path=None):
+def initialise_objects(file_path):
     patients = []
     user_list.clear()
     users = select('users')
@@ -60,11 +37,6 @@ def initialise_objects(file_path=None):
         return patients
 
 
-
-def save_current_user():
-    with open(FILE_NAME, 'wb') as file:
-        pickle.dump(currentUser, file)
-
 # function for logging in
 def login(username=None, password=None, app=None):
     # making sure current user is assigned correctly
@@ -76,7 +48,6 @@ def login(username=None, password=None, app=None):
             if user.get_username() == username:
                 currentUser = user
                 user_to_login = user
-                save_current_user()
                 break
             else:
                 continue
@@ -99,13 +70,13 @@ def login(username=None, password=None, app=None):
         if password_to_check == hashedpw:
             # if password is correct assign the current user to the selected user object
             currentUser = user_to_login
-            save_current_user()
             open_main_menu(app)
             return True
         else:
             tkm.showerror("Failure", "Password incorrect!")
             return False
-        
+
+
 def logout(app):
     initialise_objects()
     global currentUser
@@ -113,7 +84,8 @@ def logout(app):
     currentUser = None
     os.remove(FILE_NAME)
     os.system('python login.py')
-        
+
+
 def create_user(user, pswd):
     salt = bcrypt.gensalt()
     pswd = pswd.encode('utf-8')
@@ -130,8 +102,8 @@ def create_user(user, pswd):
     else:
         tkm.showinfo("Add successful!", "The user was added successfully!")
 
+
 def open_main_menu(app):
     initialise_objects()
     app.destroy()
     os.system('python MainGui.py')
-

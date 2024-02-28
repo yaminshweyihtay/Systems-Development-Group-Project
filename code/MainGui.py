@@ -6,7 +6,6 @@ from main import initialise_objects
 
 
 class MainGui(tk.Tk):
-    initialise_objects()
     def __init__(self):
         super().__init__()
         self.geometry("800x600")

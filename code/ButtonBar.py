@@ -3,9 +3,8 @@ from tkinter import LEFT
 
 
 class ButtonBar(ttk.Frame):
-    def __init__(self, container):
+    def __init__(self, container, callback):
         super().__init__(container)
+        self.callback = callback
         filter_button = ttk.Button(self, text="Filter")
         filter_button.pack(side=LEFT)
-        sort_button = ttk.Button(self, text="Sort")
-        sort_button.pack(side=LEFT, padx=15)
