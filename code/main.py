@@ -115,5 +115,3 @@ def open_main_menu(app):
     initialise_objects(None)
     app.destroy()
     os.system('python MainGui.py')
-
-

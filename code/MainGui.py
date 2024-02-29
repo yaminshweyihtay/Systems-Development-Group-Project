@@ -4,7 +4,6 @@ from Sidebar import Sidebar
 from CsvViewer import CsvViewer
 
 
-
 class MainGui(tk.Tk):
     def __init__(self):
         super().__init__()
@@ -28,7 +27,6 @@ class MainGui(tk.Tk):
     def display_content(content):
         content.pack(fill=BOTH, expand=True)
 
-    
 
 app = MainGui()
 app.mainloop()

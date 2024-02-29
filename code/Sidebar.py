@@ -20,11 +20,10 @@ class Sidebar(tk.Frame):
         upload_csv_button = ttk.Button(self, text="Upload Patient CSV File", style=self.button_colour,
                                        command=lambda: self.display_callback(self.content[0]))
         analyse_csv_button = ttk.Button(self, text="Analyse Patient CSV File", style=self.button_colour)
-        # about_button = ttk.Button(self, text="About", style=self.button_colour)
         about_button = ttk.Button(self, text="About", style=self.button_colour, command=self.open_about_page)
         upload_csv_button.pack(pady=15, fill=X)
         analyse_csv_button.pack(pady=15, fill=X)
         about_button.pack(pady=15, fill=X)
 
-    def open_about_page(self):  #
-        about_window = AboutPage(self)
+    def open_about_page(self):
+        AboutPage(self)
