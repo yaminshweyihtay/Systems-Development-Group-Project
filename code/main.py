@@ -100,7 +100,11 @@ def create_user(user, pswd):
     pswd = bcrypt.hashpw(pswd, salt)
     salt = str(salt)
     pswd = str(pswd)
-    new_user = User(user, pswd)
+    numOfUsers = 0
+    for user in user_list:
+        numOfUsers += 1
+    userID = numOfUsers + 1
+    new_user = User(userID, user, pswd, salt)
     user_list.append(new_user)
     try:
         insert("users", ["username, pswd, salt"],
