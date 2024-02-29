@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk, LEFT, Y, X
+from AboutPage import AboutPage
 
 
 class Sidebar(tk.Frame):
@@ -25,5 +26,5 @@ class Sidebar(tk.Frame):
         analyse_csv_button.pack(pady=15, fill=X)
         about_button.pack(pady=15, fill=X)
 
-    #def open_about_page(self): #
-        #about_window = AboutPage(self)
+    def open_about_page(self):  #
+        about_window = AboutPage(self)
