@@ -1,9 +1,7 @@
-from main import initialise_objects, create_user, user_list
-
-initialise_objects()
+from main import  *
 
 print(user_list)
+login("user1234", "1234")
 
-for user in user_list:
-    print(user.get_username())
+
 

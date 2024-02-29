@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import LEFT, RIGHT, BOTTOM, X
-from main import login
+from main import login, fetch_user_list
 
 # Setting the default font
 font = ("Arial", 14)
@@ -37,6 +37,6 @@ class LoginGUI(tk.Tk):
         password_frame.pack(fill=X, padx=5, pady=5, expand=True)
         login_button.pack(side=BOTTOM, fill=X, expand=True)
 
-
+fetch_user_list()
 app = LoginGUI()
 app.mainloop()
