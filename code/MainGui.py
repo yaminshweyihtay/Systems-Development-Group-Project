@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import LEFT, Y, BOTH
 from Sidebar import Sidebar
 from CsvViewer import CsvViewer
+from AboutPage import AboutPage #
 
 
 class MainGui(tk.Tk):
@@ -26,6 +27,9 @@ class MainGui(tk.Tk):
     @staticmethod
     def display_content(content):
         content.pack(fill=BOTH, expand=True)
+
+    def open_about_page(self): #
+        about_window = AboutPage(self)
 
 
 app = MainGui()
