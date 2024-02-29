@@ -14,11 +14,10 @@ class CsvViewer(tk.Frame):
         self.file_path = None
         self.patients = []
         self.csv_parameters = []
+
         self.create_widgets()
 
     def create_widgets(self):
-        button_bar = ButtonBar(self, self.get_csv_parameters)
-        button_bar.pack(padx=40, pady=15, side=TOP, anchor=NW)
         csv_viewer = ttk.Treeview(self, selectmode="browse", show="headings")
         # code for horizontal scroll bar
         x_scroll_bar = ttk.Scrollbar(self, orient=HORIZONTAL)
@@ -80,16 +79,17 @@ class CsvViewer(tk.Frame):
                                                                                           patient.get_bmi(),
                                                                                           patient.get_referral()))
 
+                button_bar = ButtonBar(self, self.get_csv_parameters())
+                button_bar.pack(padx=40, pady=15, side=TOP, anchor=NW)
                 status_label.config(text=f"CSV file loaded: {self.file_path}")
-
         except Exception as e:
             tkm.showerror("Error", str(e))
 
     def sort_tree_view(self, tree_view, column, reverse):
         non_empty_rows = [k for k in tree_view.get_children('') if tree_view.set(k, column)]
-        l = [(tree_view.set(k, column), k) for k in non_empty_rows]
-        l.sort(key=lambda t: float(t[0]), reverse=reverse)
-        for index, (val, k) in enumerate(l):
+        value_key_pairs = [(tree_view.set(k, column), k) for k in non_empty_rows]
+        value_key_pairs.sort(key=lambda t: float(t[0]), reverse=reverse)
+        for index, (val, k) in enumerate(value_key_pairs):
             tree_view.move(k, '', index)
 
         tree_view.heading(column,

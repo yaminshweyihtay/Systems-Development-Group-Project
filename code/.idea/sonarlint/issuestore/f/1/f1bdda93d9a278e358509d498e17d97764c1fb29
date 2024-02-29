@@ -1,0 +1,4 @@
+
+ypython:S117g"[Rename this local variable "numOfUsers" to match the regular expression ^[_a-z][a-z0-9_]*$.(‘öˆ‚8ô©¾©ß1
+zpython:S117j"WRename this local variable "userID" to match the regular expression ^[_a-z][a-z0-9_]*$.(­‹“Èÿÿÿÿÿ8õ©¾©ß1
+ppython:S1226a"LIntroduce a new variable or use its initial value before reassigning 'user'.(ìÈÜùÿÿÿÿ8÷©¾©ß1
