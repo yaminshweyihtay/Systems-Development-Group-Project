@@ -5,6 +5,8 @@ import csv
 import os
 import bcrypt
 from User import User
+from AboutPage import AboutPage #
+
 
 user_list = []
 
@@ -115,3 +117,7 @@ def open_main_menu(app):
     initialise_objects(None)
     app.destroy()
     os.system('python MainGui.py')
+
+def open_about_page(self): #
+    about_window = AboutPage(self)
+
