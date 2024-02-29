@@ -10,15 +10,13 @@ user_list = []
 
 
 # reads csv and appends the patient object list, reads in user info
-def initialise_objects(file_path):
+def initialise_objects(file_path, init_user=False):
     global user_list
     user_list.clear()
     patients = fetch_patients(file_path)
-    try:
+    if init_user:
         user_list = fetch_user_list()
-    except Exception as e:
-        print(e)
-        return patients
+    return patients
 
 
 def fetch_patients(file_path):
@@ -119,3 +117,25 @@ def open_main_menu(app):
     initialise_objects(None)
     app.destroy()
     os.system('python MainGui.py')
+
+
+def find_max_value(tree_view, column):
+    # max value set to the lowest possible number so the first value compared is always bigger
+    max_value = float("-inf")
+    non_empty_values = [k for k in tree_view.get_children('') if tree_view.set(k, column)]
+    for item in non_empty_values:
+        value = float(tree_view.item(item, "values")[column])
+        if value > max_value:
+            max_value = value
+    return max_value
+
+
+def find_min_value(tree_view, column):
+    # max value set to the highest possible number so the first value compared is always smaller
+    min_value = float("inf")
+    non_empty_values = [k for k in tree_view.get_children('') if tree_view.set(k, column)]
+    for item in non_empty_values:
+        value = float(tree_view.item(item, "values")[column])
+        if value < min_value:
+            min_value = value
+    return min_value

@@ -79,7 +79,7 @@ class CsvViewer(tk.Frame):
                                                                                           patient.get_bmi(),
                                                                                           patient.get_referral()))
 
-                button_bar = ButtonBar(self, self.get_csv_parameters())
+                button_bar = ButtonBar(self, csv_viewer)
                 button_bar.pack(padx=40, pady=15, side=TOP, anchor=NW)
                 status_label.config(text=f"CSV file loaded: {self.file_path}")
         except Exception as e:
