@@ -119,23 +119,11 @@ def open_main_menu(app):
     os.system('python MainGui.py')
 
 
-def find_max_value(tree_view, column):
-    # max value set to the lowest possible number so the first value compared is always bigger
-    max_value = float("-inf")
-    non_empty_values = [k for k in tree_view.get_children('') if tree_view.set(k, column)]
-    for item in non_empty_values:
-        value = float(tree_view.item(item, "values")[column])
-        if value > max_value:
-            max_value = value
-    return max_value
 
 
-def find_min_value(tree_view, column):
-    # max value set to the highest possible number so the first value compared is always smaller
-    min_value = float("inf")
+def find_value_range(tree_view, column):
+    values = []
     non_empty_values = [k for k in tree_view.get_children('') if tree_view.set(k, column)]
     for item in non_empty_values:
-        value = float(tree_view.item(item, "values")[column])
-        if value < min_value:
-            min_value = value
-    return min_value
+        values.append(float(tree_view.item(item, "values")[column]))
+    return min(values), max(values)

@@ -1,8 +1,6 @@
 import tkinter as tk
 from tkinter import (ttk, HORIZONTAL, LEFT, TOP, BOTTOM, X, NW)
-from main import find_max_value, find_min_value
-import threading
-from threading import Thread
+from main import find_value_range
 
 
 class FilterMenu(tk.Toplevel):
@@ -30,13 +28,13 @@ class FilterMenu(tk.Toplevel):
     def create_slider_frame(self, parent, column, column_number, label_text):
         label_frame = ttk.Frame(parent)
         label = ttk.Label(label_frame, text=f"{label_text}: {column}")
-        min_value = find_min_value(self.csv_data, column_number)
-        max_value = find_max_value(self.csv_data, column_number)
-        slider = ttk.Scale(label_frame, from_=min_value, to=max_value, orient=HORIZONTAL)
+        # finding the min and max values for a specific row in the csv
+        values = find_value_range(self.csv_data, column_number)
+        slider = ttk.Scale(label_frame, from_=values[0], to=values[1], orient=HORIZONTAL)
         if label_text == "Min":
-            slider.set(min_value)
+            slider.set(values[0])
         else:
-            slider.set(max_value)
+            slider.set(values[1])
 
         value_label = ttk.Label(label_frame, text=str(slider.get()))
 
