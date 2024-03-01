@@ -92,21 +92,21 @@ def logout(app):
     app.master.destroy()
 
 
-def create_user(user, pswd):
+def create_user(user_to_add, pswd):
     salt = bcrypt.gensalt()
     pswd = pswd.encode('utf-8')
     pswd = bcrypt.hashpw(pswd, salt)
     salt = str(salt)
     pswd = str(pswd)
-    numOfUsers = 0
+    num_of_users = 0
     for user in user_list:
-        numOfUsers += 1
-    userID = numOfUsers + 1
-    new_user = User(userID, user, pswd, salt)
+        num_of_users += 1
+    user_id = num_of_users + 1
+    new_user = User(user_id, user_to_add, pswd, salt)
     user_list.append(new_user)
     try:
         insert("users", ["username, pswd, salt"],
-               [user, pswd, salt])
+               [user_to_add, pswd, salt])
     except Exception as e:
         tkm.showerror("Failed to add user!", "The user was not added! " + str(e))
     else:
@@ -119,11 +119,18 @@ def open_main_menu(app):
     os.system('python MainGui.py')
 
 
-
-
 def find_value_range(tree_view, column):
+    index = find_column_index(tree_view, column)
     values = []
-    non_empty_values = [k for k in tree_view.get_children('') if tree_view.set(k, column)]
+    non_empty_values = [k for k in tree_view.get_children('') if tree_view.set(k, index)]
     for item in non_empty_values:
-        values.append(float(tree_view.item(item, "values")[column]))
+        values.append(float(tree_view.item(item, "values")[index]))
     return min(values), max(values)
+
+
+def find_column_index(tree_view, column_name):
+    columns = tree_view["columns"]
+    for index, column in enumerate(columns):
+        if column == column_name:
+            return index
+    return None

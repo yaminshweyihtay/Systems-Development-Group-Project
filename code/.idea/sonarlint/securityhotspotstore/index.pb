@@ -25,3 +25,5 @@ Sidebar.py,f\6\f6d5ba6da49dcd72d918bf82cae8252933c4ee81
 FilterMenu.py,3\a\3a3c4da60c8945253df1a90fbdbbe7b5cd45c6d5
 <
 AboutPage.py,8\0\80aa6a4c35ab2f5df4590edac57dea1d34c80c39
+9
+	README.md,8\e\8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d

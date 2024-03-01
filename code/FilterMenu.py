@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import (ttk, HORIZONTAL, LEFT, TOP, BOTTOM, X, NW)
+from tkinter import ttk, VERTICAL, HORIZONTAL, LEFT, RIGHT, X, Y, BOTH, NW, ALL
 from main import find_value_range
 
 
@@ -11,38 +11,71 @@ class FilterMenu(tk.Toplevel):
         self.csv_data = csv_data
         self.create_widgets()
 
+    @staticmethod
+    def update_value_label(value, label):
+        label.config(text=value)
+
     def create_widgets(self):
-        filter_button = ttk.Button(self, text="Filter")
-        self.create_filter_widgets()
-        filter_button.pack(side=BOTTOM, fill=X, padx=20, pady=5)
+        filter_frame = tk.Frame(self)
+        filter_frame.pack(fill=BOTH, expand=True)
 
-    def create_filter_widgets(self):
+        canvas = tk.Canvas(filter_frame)
+        canvas.pack(side=LEFT, fill=BOTH, expand=True)
+
+        scrollbar = ttk.Scrollbar(filter_frame, orient=VERTICAL, command=canvas.yview)
+        scrollbar.pack(side=RIGHT, fill=Y)
+
+        canvas.configure(yscrollcommand=scrollbar.set)
+
+        inner_frame = tk.Frame(canvas)
+        canvas.create_window((0, 0), window=inner_frame, anchor=NW)
+
+        # Function to update scroll region
+        def update_scroll_region(event):
+            canvas.configure(scrollregion=canvas.bbox(ALL))
+
+        inner_frame.bind("<Configure>", update_scroll_region)
+
+        # Function to update canvas size
+        def update_canvas_size(event):
+            canvas.itemconfig(inner_frame_window, width=event.width)
+
+        #  call update canvas size when window resized
+        canvas.bind("<Configure>", update_canvas_size)
+
+        inner_frame_window = canvas.create_window((0, 0), window=inner_frame, anchor=NW)
+
+        filter_button = ttk.Button(inner_frame, text="Filter")
+        filter_button.pack(side=tk.BOTTOM, fill=X, padx=20, pady=5)
+
         columns = self.csv_data['columns']
-        for column in columns[1:len(columns) - 1]:
-            column_number = columns.index(column)
-            min_max_frame = ttk.Frame(self)
-            self.create_slider_frame(min_max_frame, column, column_number, "Min")
-            self.create_slider_frame(min_max_frame, column, column_number, "Max")
-            min_max_frame.pack(side=TOP, fill=X, padx=20, pady=5)
+        labels = []
+        sliders = []
 
-    def create_slider_frame(self, parent, column, column_number, label_text):
-        label_frame = ttk.Frame(parent)
-        label = ttk.Label(label_frame, text=f"{label_text}: {column}")
-        # finding the min and max values for a specific row in the csv
-        values = find_value_range(self.csv_data, column_number)
-        slider = ttk.Scale(label_frame, from_=values[0], to=values[1], orient=HORIZONTAL)
-        if label_text == "Min":
-            slider.set(values[0])
-        else:
-            slider.set(values[1])
+        # go through all columns while not including the first and last index
+        for column in columns[1:-1]:
+            column_range = find_value_range(self.csv_data, column)
 
-        value_label = ttk.Label(label_frame, text=str(slider.get()))
+            min_label = ttk.Label(inner_frame, text="Min: " + column)
+            min_label.pack(fill=X)
+            min_value_label = ttk.Label(inner_frame, text="")
+            min_value_label.pack(fill=X)
+            min_slider = ttk.Scale(inner_frame, from_=column_range[0], to=column_range[1], orient=HORIZONTAL)
+            min_slider.pack(fill=X)
 
-        def update_value_label(value):
-            value_label.config(text=str(value))
+            max_label = ttk.Label(inner_frame, text="Max: " + column)
+            max_label.pack(fill=X)
+            max_value_label = ttk.Label(inner_frame, text="")
+            max_value_label.pack(fill=X)
+            max_slider = ttk.Scale(inner_frame, from_=column_range[0], to=column_range[1], orient=HORIZONTAL)
+            max_slider.pack(fill=X)
 
-        slider.config(command=update_value_label)
-        label.pack(side=TOP, anchor=NW, fill=X)
-        slider.pack(side=TOP, padx=20, fill=X, expand=True)
-        value_label.pack(side=TOP, padx=20, fill=X, expand=True)
-        label_frame.pack(side=LEFT, fill=X, expand=True)
+            min_slider.config(command=lambda value, label=min_value_label: self.update_value_label(value, label))
+            max_slider.config(command=lambda value, label=max_value_label: self.update_value_label(value, label))
+
+            # set the default values of the sliders
+            min_slider.set(column_range[0])
+            max_slider.set(column_range[1])
+
+            labels.extend([min_label, max_label])
+            sliders.extend([min_slider, max_slider])
