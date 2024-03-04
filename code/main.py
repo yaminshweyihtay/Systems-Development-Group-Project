@@ -119,15 +119,6 @@ def open_main_menu(app):
     os.system('python MainGui.py')
 
 
-def find_value_range(tree_view, column):
-    index = find_column_index(tree_view, column)
-    values = []
-    non_empty_values = [k for k in tree_view.get_children('') if tree_view.set(k, index)]
-    for item in non_empty_values:
-        values.append(float(tree_view.item(item, "values")[index]))
-    return min(values), max(values)
-
-
 def find_column_index(tree_view, column_name):
     columns = tree_view["columns"]
     for index, column in enumerate(columns):

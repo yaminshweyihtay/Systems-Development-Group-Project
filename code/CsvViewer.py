@@ -1,8 +1,7 @@
 import csv
 from ButtonBar import ButtonBar
 import tkinter as tk
-import tkinter.ttk as ttk
-from tkinter import filedialog, HORIZONTAL, NO, X, VERTICAL, RIGHT, BOTH, TOP, BOTTOM, NW
+from tkinter import ttk, filedialog, HORIZONTAL, NO, X, VERTICAL, RIGHT, BOTH, TOP, BOTTOM, NW
 import tkinter.messagebox as tkm
 
 from main import initialise_objects
@@ -14,28 +13,28 @@ class CsvViewer(tk.Frame):
         self.file_path = None
         self.patients = []
         self.csv_parameters = []
-
+        self.hidden_columns = []
+        self.csv_viewer = ttk.Treeview(self, selectmode="browse", show="headings")
         self.create_widgets()
 
     def create_widgets(self):
-        csv_viewer = ttk.Treeview(self, selectmode="browse", show="headings")
         # code for horizontal scroll bar
         x_scroll_bar = ttk.Scrollbar(self, orient=HORIZONTAL)
-        x_scroll_bar.configure(command=csv_viewer.xview)
-        csv_viewer.configure(xscrollcommand=x_scroll_bar.set)
+        x_scroll_bar.configure(command=self.csv_viewer.xview)
+        self.csv_viewer.configure(xscrollcommand=x_scroll_bar.set)
 
         # code for vertical scroll bar
-        y_scroll_bar = ttk.Scrollbar(self, orient=VERTICAL, command=csv_viewer.yview)
-        csv_viewer.configure(yscrollcommand=y_scroll_bar.set)
+        y_scroll_bar = ttk.Scrollbar(self, orient=VERTICAL, command=self.csv_viewer.yview)
+        self.csv_viewer.configure(yscrollcommand=y_scroll_bar.set)
         y_scroll_bar.pack(side=RIGHT, fill=BOTH)
-        csv_viewer.pack(padx=40, expand=True, fill=BOTH)
+        self.csv_viewer.pack(padx=40, expand=True, fill=BOTH)
         x_scroll_bar.pack(fill=X)
 
         status_label = tk.Label(self, text="", padx=20, pady=10)
         status_label.pack()
 
         open_button = ttk.Button(self, text="Open CSV File",
-                                 command=lambda: self.open_csv_file(csv_viewer, status_label))
+                                 command=lambda: self.open_csv_file(self.csv_viewer, status_label))
         open_button.pack(padx=20, pady=10, side=BOTTOM)
 
     def open_csv_file(self, csv_viewer, status_label):
@@ -79,7 +78,7 @@ class CsvViewer(tk.Frame):
                                                                                           patient.get_bmi(),
                                                                                           patient.get_referral()))
 
-                button_bar = ButtonBar(self, csv_viewer)
+                button_bar = ButtonBar(self, csv_viewer, self.toggle_column, self.get_hidden_columns)
                 button_bar.pack(padx=40, pady=15, side=TOP, anchor=NW)
                 status_label.config(text=f"CSV file loaded: {self.file_path}")
         except Exception as e:
@@ -92,8 +91,33 @@ class CsvViewer(tk.Frame):
         for index, (val, k) in enumerate(value_key_pairs):
             tree_view.move(k, '', index)
 
-        tree_view.heading(column,
-                          command=lambda: self.sort_tree_view(tree_view, column, not reverse))
+        tree_view.heading(column, command=lambda: self.sort_tree_view(tree_view, column, not reverse))
+
+    def toggle_column(self, column_to_toggle):
+        # check if column is already hidden
+        if not (self.check_if_hidden(column_to_toggle)):
+            for item in self.csv_viewer.get_children():
+                self.csv_viewer.item(item,
+                                     values=[value for i, value in enumerate(self.csv_viewer.item(item)['values']) if
+                                             i != column_to_toggle])
+            # remove the column
+            self.csv_viewer.heading(column_to_toggle, text='')
+            self.csv_viewer.column(column_to_toggle, width=0, stretch=NO)
+            self.hidden_columns.append(column_to_toggle)
+        else:
+            # add the column
+            self.csv_viewer.heading(column_to_toggle, text=column_to_toggle)
+            self.csv_viewer.column(column_to_toggle, width=100, stretch=NO)
+            self.hidden_columns.remove(column_to_toggle)
+
+    def get_hidden_columns(self):
+        return self.hidden_columns
+
+    def check_if_hidden(self, column):
+        for col in self.get_hidden_columns():
+            if col == column:
+                return True
+        return False
 
     def get_csv_parameters(self):
         return self.csv_parameters

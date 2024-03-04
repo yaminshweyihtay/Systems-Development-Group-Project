@@ -27,3 +27,5 @@ Sidebar.py,f\6\f6d5ba6da49dcd72d918bf82cae8252933c4ee81
 AboutPage.py,8\0\80aa6a4c35ab2f5df4590edac57dea1d34c80c39
 9
 	README.md,8\e\8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
+9
+	dbFunc.py,b\4\b42ab2989c0bc82517df4a050d5ae2b85bb4aac4
