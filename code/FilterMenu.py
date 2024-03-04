@@ -19,23 +19,19 @@ class FilterMenu(tk.Toplevel):
 
         check_boxes = []
 
-        # go through all columns while not including the first and last index
         for column in columns[1:-1]:
             state = tk.BooleanVar(value=self.mark_check_boxes(column))
-            show_hide_column = ttk.Checkbutton(self, text=column, var=state,
-                                               command=lambda col=column: self.toggle_column(col))
+            show_hide_column = ttk.Checkbutton(self, text=column, variable=state,
+                                               command=lambda col=column, var=state: self.toggle_column(col, var))
             show_hide_column.pack(fill=X, pady=5)
-            show_hide_column.state(['!alternate'])
             check_boxes.append(show_hide_column)
 
         close_button.pack(fill=X, side=BOTTOM)
 
-    def toggle_column(self, column):
+    def toggle_column(self, column, var):
         self.toggle(column)
 
     def mark_check_boxes(self, column):
         hidden_columns = self.get_hidden()
-        for col in hidden_columns:
-            if column == col:
-                return False
-        return True
+        return column not in hidden_columns
+
