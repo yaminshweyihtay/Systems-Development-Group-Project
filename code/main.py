@@ -27,6 +27,9 @@ def fetch_patients(file_path):
                 csv_reader = csv.reader(file)
                 next(csv_reader)
                 for row in csv_reader:
+                    # checking if csv file is too long
+                    if len(row) > 18:
+                        raise IndexError
                     # append encounterId, end tidal co2, feed vol, feed vol adm, fio2, fio2_ratio, Insp_time
                     # oxygen_flow_rate, peep, pip, resp rate, sip, tidal vol, tidal vol actual, tidal vol kg
                     # tidal vol spon and bmi to patient object
@@ -36,9 +39,9 @@ def fetch_patients(file_path):
                     )
         except Exception as e:
             if isinstance(e, IndexError):
-                tkm.showerror("Error!","The inputted csv is of the incorrect format!")
+                tkm.showerror("Error!", "The inputted csv is of the incorrect format!")
             else:
-                tkm.showerror("Error!", "File not found!")
+                tkm.showerror("File not found", "The file at ", file_path, " was not found!")
             return False
         return patients
 
