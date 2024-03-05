@@ -34,8 +34,11 @@ def fetch_patients(file_path):
                         Patient(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10],
                                 row[11], row[12], row[13], row[14], row[15], row[16], row[17])
                     )
-        except FileNotFoundError:
-            tkm.showerror("File not found", "The file at ", file_path, " was not found!")
+        except Exception as e:
+            if isinstance(e, IndexError):
+                tkm.showerror("Error!","The inputted csv is of the incorrect format!")
+            else:
+                tkm.showerror("Error!", "File not found!")
             return False
         return patients
 

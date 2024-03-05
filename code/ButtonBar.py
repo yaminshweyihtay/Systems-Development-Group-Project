@@ -1,6 +1,6 @@
 import tkinter.ttk as ttk
 from tkinter import LEFT
-from FilterMenu import FilterMenu
+from FilterWindow import FilterWindow
 
 
 class ButtonBar(ttk.Frame):
@@ -13,4 +13,4 @@ class ButtonBar(ttk.Frame):
         filter_button.pack(side=LEFT)
 
     def open_filter_menu(self):
-        FilterMenu(self, self.csv_data, self.toggle, self.get_hidden)
+        FilterWindow(self, self.csv_data, self.toggle, self.get_hidden)

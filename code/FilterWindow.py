@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk, BOTTOM, X
 
 
-class FilterMenu(tk.Toplevel):
+class FilterWindow(tk.Toplevel):
     def __init__(self, parent, csv_data, toggle, get_hidden):
         super().__init__(parent)
         self.toggle = toggle
