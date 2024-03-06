@@ -8,7 +8,7 @@ class FilterWindow(tk.Toplevel):
         self.toggle = toggle
         self.get_hidden = get_hidden
         self.title("Show / Hide Columns")
-        self.geometry("400x560")
+        self.geometry("400x520")
         self.csv_data = csv_data
         self.create_widgets()
 
