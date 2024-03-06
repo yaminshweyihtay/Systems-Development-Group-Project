@@ -7,7 +7,7 @@ class FilterWindow(tk.Toplevel):
         super().__init__(parent)
         self.toggle = toggle
         self.get_hidden = get_hidden
-        # code to ensure the filter button will re-enable if the window is closed
+        # code to ensure the filter button will re-enable if the window is closed force fully
         self.protocol("WM_DELETE_WINDOW", self.close_window)
         self.reset_button = reset_button
         self.title("Show / Hide Columns")

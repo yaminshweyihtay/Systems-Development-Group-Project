@@ -79,7 +79,7 @@ class CsvViewer(tk.Frame):
                                                                                           patient.get_bmi(),
                                                                                           patient.get_referral()))
 
-                # code for the filter button
+                # code for the filter button, sending the button bar the treeview
                 button_bar = ButtonBar(self, csv_viewer, self.toggle_column, self.get_hidden_columns)
                 button_bar.pack(padx=40, pady=15, side=TOP, anchor=NW)
                 status_label.config(text=f"CSV file loaded: {self.file_path}")

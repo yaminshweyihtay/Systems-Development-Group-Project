@@ -12,7 +12,7 @@ user_list = []
 # reads csv and appends the patient object list, reads in user info
 def initialise_objects(file_path, init_user=False):
     global user_list
-    # clearing the user list so it can be updated using fetch_user_list()
+    # clearing the user list, so it can be updated using fetch_user_list()
     user_list.clear()
     patients = fetch_patients(file_path)
     if init_user:
