@@ -13,6 +13,7 @@ class MainGui(tk.Tk):
         # array of frames which can be displayed as content
         self.content = []
         self.content.append(CsvViewer(self))
+        # sending frames to sidebar
         self.side_bar = Sidebar(self, self.content, self.display_content)
         self.side_bar.pack(side=LEFT, fill=Y)
         # binding to adjust width of the sidebar if width of window is changed
@@ -25,6 +26,7 @@ class MainGui(tk.Tk):
 
     @staticmethod
     def display_content(content):
+        # display the frame
         content.pack(fill=BOTH, expand=True)
 
 

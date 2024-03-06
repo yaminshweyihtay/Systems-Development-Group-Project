@@ -8,6 +8,7 @@ class ButtonBar(ttk.Frame):
         super().__init__(container)
         self.toggle = toggle
         self.get_hidden = get_hidden
+        # treeview passed from the csv viewer
         self.csv_data = csv_data
         self.filter_button = ttk.Button(self, text="Filter", command=self.open_filter_menu)
         self.filter_button.pack(side=LEFT)
@@ -15,6 +16,7 @@ class ButtonBar(ttk.Frame):
     def reset_button(self):
         self.filter_button.state(["!disabled"])
 
+    # disable the filter button when it is clicked
     def open_filter_menu(self):
         self.filter_button.state(["disabled"])
         FilterWindow(self, self.csv_data, self.toggle, self.get_hidden, self.reset_button)

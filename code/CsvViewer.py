@@ -53,6 +53,7 @@ class CsvViewer(tk.Frame):
                 header = next(csv_reader)  # Read the header row
                 csv_viewer.delete(*csv_viewer.get_children())  # Clear the current data
                 csv_viewer["columns"] = header
+                # read through every column fetch the column names to display
                 for col in header:
                     csv_viewer.heading(col, text=col, command=lambda c=col: self.sort_tree_view(csv_viewer, c, True))
                     self.csv_parameters.append(col)
@@ -78,6 +79,7 @@ class CsvViewer(tk.Frame):
                                                                                           patient.get_bmi(),
                                                                                           patient.get_referral()))
 
+                # code for the filter button
                 button_bar = ButtonBar(self, csv_viewer, self.toggle_column, self.get_hidden_columns)
                 button_bar.pack(padx=40, pady=15, side=TOP, anchor=NW)
                 status_label.config(text=f"CSV file loaded: {self.file_path}")
@@ -85,6 +87,7 @@ class CsvViewer(tk.Frame):
             tkm.showerror("Error", str(e))
 
     def sort_tree_view(self, tree_view, column, reverse):
+        # fetch only rows that are not empty
         non_empty_rows = [k for k in tree_view.get_children('') if tree_view.set(k, column)]
         value_key_pairs = [(tree_view.set(k, column), k) for k in non_empty_rows]
         value_key_pairs.sort(key=lambda t: float(t[0]), reverse=reverse)
@@ -103,9 +106,10 @@ class CsvViewer(tk.Frame):
             # remove the column
             self.csv_viewer.heading(column_to_toggle, text='')
             self.csv_viewer.column(column_to_toggle, width=0, stretch=NO)
+            # add to hidden columns, so it can be unhidden in the future
             self.hidden_columns.append(column_to_toggle)
         else:
-            # add the column
+            # if column is hidden show it again
             self.csv_viewer.heading(column_to_toggle, text=column_to_toggle)
             self.csv_viewer.column(column_to_toggle, width=100, stretch=NO)
             self.hidden_columns.remove(column_to_toggle)

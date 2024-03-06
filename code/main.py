@@ -12,6 +12,7 @@ user_list = []
 # reads csv and appends the patient object list, reads in user info
 def initialise_objects(file_path, init_user=False):
     global user_list
+    # clearing the user list so it can be updated using fetch_user_list()
     user_list.clear()
     patients = fetch_patients(file_path)
     if init_user:
@@ -37,6 +38,7 @@ def fetch_patients(file_path):
                         Patient(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10],
                                 row[11], row[12], row[13], row[14], row[15], row[16], row[17])
                     )
+        # Index error indicates problem with inputted csv
         except Exception as e:
             if isinstance(e, IndexError):
                 tkm.showerror("Error!", "The inputted csv is of the incorrect format!")
@@ -124,10 +126,3 @@ def open_main_menu(app):
     app.destroy()
     os.system('python MainGui.py')
 
-
-def find_column_index(tree_view, column_name):
-    columns = tree_view["columns"]
-    for index, column in enumerate(columns):
-        if column == column_name:
-            return index
-    return None
