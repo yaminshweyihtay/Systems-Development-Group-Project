@@ -9,8 +9,12 @@ class ButtonBar(ttk.Frame):
         self.toggle = toggle
         self.get_hidden = get_hidden
         self.csv_data = csv_data
-        filter_button = ttk.Button(self, text="Filter", command=self.open_filter_menu)
-        filter_button.pack(side=LEFT)
+        self.filter_button = ttk.Button(self, text="Filter", command=self.open_filter_menu)
+        self.filter_button.pack(side=LEFT)
+
+    def reset_button(self):
+        self.filter_button.state(["!disabled"])
 
     def open_filter_menu(self):
-        FilterWindow(self, self.csv_data, self.toggle, self.get_hidden)
+        self.filter_button.state(["disabled"])
+        FilterWindow(self, self.csv_data, self.toggle, self.get_hidden, self.reset_button)
