@@ -19,8 +19,9 @@ class MainGui(tk.Tk):
         self.content.append(AnalyseFile(self))
         self.content.append(CheckPatient(self))
         self.content.append(UserManagement(self))
+        self.current_display = None
         # sending frames to sidebar
-        self.side_bar = Sidebar(self, self.content, self.display_content)
+        self.side_bar = Sidebar(self, self.display_content)
         self.side_bar.pack(side=LEFT, fill=Y)
         # binding to adjust width of the sidebar if width of window is changed
         self.bind("<Configure>", lambda event: self.get_width())
@@ -30,10 +31,18 @@ class MainGui(tk.Tk):
         side_bar_width = self.winfo_width() * 0.25
         self.side_bar.config(width=side_bar_width)
 
-    @staticmethod
-    def display_content(content):
-        # display the frame
-        content.pack(fill=BOTH, expand=True)
+    def display_content(self, index):
+        # Hide the previous frame
+        if hasattr(self, "current_frame"):
+            self.current_frame.pack_forget()
+
+        # Raise the new frame
+        frame = self.content[index]
+        frame.pack(fill=BOTH, expand=True)
+        frame.tkraise()
+
+        # Set the current_frame attribute to the newly displayed frame
+        self.current_frame = frame
 
 
 app = MainGui()
