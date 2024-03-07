@@ -10,6 +10,7 @@ from User import User
 user_list = []
 FILE_NAME = "currentUser.pkl"
 
+
 # reads csv and appends the patient object list, reads in user info
 def initialise_objects(file_path, init_user=False):
     global user_list
@@ -30,7 +31,7 @@ def fetch_patients(file_path):
                 next(csv_reader)
                 for row in csv_reader:
                     # checking if csv file is too long
-                    if len(row) > 18:
+                    if len(row) < 18:
                         raise IndexError
                     # append encounterId, end tidal co2, feed vol, feed vol adm, fio2, fio2_ratio, Insp_time
                     # oxygen_flow_rate, peep, pip, resp rate, sip, tidal vol, tidal vol actual, tidal vol kg
@@ -51,6 +52,8 @@ def fetch_patients(file_path):
 
 def fetch_user_list():
     users = select('users')
+    if users is None:
+        return False
     # append user_id, user_name, password, salt to the user object
     for user in users:
         user_list.append(User(user[0], user[1], user[2], user[3]))
@@ -97,14 +100,17 @@ def login(username=None, password=None, app=None):
             tkm.showerror("Failure", "Password incorrect!")
             return False
 
+
 def save_current_user():
     with open(FILE_NAME, 'wb') as file:
         pickle.dump(currentUser, file)
+
 
 def load_current_user():
     with open(FILE_NAME, 'rb') as file:
         user = pickle.load(file)
         return user
+
 
 def logout(app):
     initialise_objects(None)
@@ -166,5 +172,3 @@ def open_main_menu(app):
     initialise_objects(None)
     app.destroy()
     os.system('python MainGui.py')
-
-
