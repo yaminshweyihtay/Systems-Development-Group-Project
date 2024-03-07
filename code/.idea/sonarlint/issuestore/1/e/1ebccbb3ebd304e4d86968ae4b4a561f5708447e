@@ -1,0 +1,7 @@
+
+tpython:S117"WRename this local variable "X_test" to match the regular expression ^[_a-z][a-z0-9_]*$.(İ¼öR8ÇéªÏá1
+upython:S117"XRename this local variable "X_train" to match the regular expression ^[_a-z][a-z0-9_]*$.(İ¼öR8ÇéªÏá1
+Npython:S1481"0Replace unused local variable "X_test" with "_".(İ¼öR8ÈéªÏá1
+Npython:S1481"0Replace unused local variable "y_test" with "_".(İ¼öR8ÇéªÏá1
+Tpython:S6734)"5Do not use "inplace=True" when modifying a dataframe.(×àÜÍ8òÔ¼Ïá1
+Ypython:S6734+"5Do not use "inplace=True" when modifying a dataframe.(ÑåÏİşÿÿÿÿ8š—¾Ïá1

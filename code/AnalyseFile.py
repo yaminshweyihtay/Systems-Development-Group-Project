@@ -23,7 +23,7 @@ class AnalyseFile(tk.Frame):
 
     def do_machine_learning(self, progress_bar):
         progress_bar.pack(fill=BOTH)
-        csv_data = self.open_csv_ml()
+        csv_data = self.open_csv()
         progress_bar.step(10)
         X = csv_data.drop(['referral'], axis=1)
         y = csv_data['referral']
@@ -34,10 +34,11 @@ class AnalyseFile(tk.Frame):
         progress_bar.step(79.9)
         tkm.showinfo("Complete!", "Machine learning completed!")
 
-    def open_csv_ml(self):
+    def open_csv(self):
         file_path = filedialog.askopenfilename(title="Upload CSV File", filetypes=[("CSV files", "*.csv")])
         csv_data = pd.read_csv(file_path)
-        csv_data.drop(['encounterId'], inplace=True)
+        # having to do this because apparently ['encounterId'] isn't there, but it actually is
+        csv_data.drop(columns=[col for col in csv_data.columns if col.lower() == 'encounterid'], inplace=True)
         # removing null values
         csv_data.dropna(inplace=True)
         return csv_data
