@@ -9,6 +9,7 @@ font = ("Arial", 14)
 class UserManagement(tk.Frame):
     def __init__(self, container):
         super().__init__(container)
+        self.currentUser = load_current_user()
         view = self.create_widgets()
         view.pack()
 
@@ -137,37 +138,25 @@ class AddUser(tk.Frame):
         frame = ttk.Frame(self)
         username = tk.StringVar()
         password = tk.StringVar()
-        privilege = tk.StringVar()
-        restaurant = tk.StringVar()
-
-        priv_options = ["0", "1", "2"]
-
-        rest_options = []
 
         display = {}
         display["user"] = ttk.Label(frame, text="Enter Username:", font=font)
         display["userinput"] = ttk.Entry(frame, textvariable=username, font=font)
         display["pswd"] = ttk.Label(frame, text="Enter Password:", font=font)
         display["pswdInput"] = ttk.Entry(frame, textvariable=password, font=font)
-        display["priv"] = ttk.Label(frame, text="Enter Privilege:", font=font)
-        display["privInput"] = ttk.OptionMenu(frame, privilege, *priv_options)
-        display["rest"] = ttk.Label(frame, text="Enter Restaurant:", font=font)
-        display["restInput"] = ttk.OptionMenu(frame, restaurant, *rest_options)
         display["submitButton"] = ttk.Button(frame, text="Submit", command=lambda: self.begin_add_user(username,
-                                                                            password, privilege, restaurant))
+                                                                            password))
 
         for i in display.values():
             i.pack(fill='both', expand=True, pady=10, padx=10)
 
         return frame
     
-    def begin_add_user(self, user, pswd, priv, rest):
-        if user and pswd and priv and rest is not None:
+    def begin_add_user(self, user, pswd):
+        if user and pswd is not None:
             user = user.get()
             pswd = pswd.get()
-            priv = priv.get()
-            rest = rest.get()
-            create_user(user, pswd, priv, rest)
+            create_user(user, pswd)
         else:
             print("Missing parameters")
         self.callback()

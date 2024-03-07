@@ -4,10 +4,11 @@ from dbFunc import insert, select
 import csv
 import os
 import bcrypt
+import pickle
 from User import User
 
 user_list = []
-
+FILE_NAME = "currentUser.pkl"
 
 # reads csv and appends the patient object list, reads in user info
 def initialise_objects(file_path, init_user=False):
@@ -89,15 +90,29 @@ def login(username=None, password=None, app=None):
         if password_to_check == hashedpw:
             # if password is correct assign the current user to the selected user object
             currentUser = user_to_login
+            save_current_user()
             open_main_menu(app)
             return True
         else:
             tkm.showerror("Failure", "Password incorrect!")
             return False
 
+def save_current_user():
+    with open(FILE_NAME, 'wb') as file:
+        pickle.dump(currentUser, file)
+
+def load_current_user():
+    with open(FILE_NAME, 'rb') as file:
+        user = pickle.load(file)
+        return user
 
 def logout(app):
+    initialise_objects()
+    global currentUser
     app.master.destroy()
+    currentUser = None
+    os.remove(FILE_NAME)
+    os.system('python loginGUI.py')
 
 
 def create_user(user_to_add, pswd):
@@ -125,4 +140,5 @@ def open_main_menu(app):
     initialise_objects(None)
     app.destroy()
     os.system('python MainGui.py')
+
 
