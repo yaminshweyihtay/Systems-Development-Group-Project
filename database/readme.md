@@ -1,0 +1,1 @@
+My sql dump of database, import through mysql workbench - log into your mysql server - administration - data import and restore

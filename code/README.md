@@ -1,1 +1,7 @@
-Run MainGui.py to run the program
+Run login.py
+
+User:
+user1234
+
+Password:
+1234
