@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import LEFT, Y, BOTH
 from Sidebar import Sidebar
 from CsvViewer import CsvViewer
+from userManagement import UserManagement
 
 
 class MainGui(tk.Tk):
@@ -13,6 +14,7 @@ class MainGui(tk.Tk):
         # array of frames which can be displayed as content
         self.content = []
         self.content.append(CsvViewer(self))
+        self.content.append(UserManagement(self))
         # sending frames to sidebar
         self.side_bar = Sidebar(self, self.content, self.display_content)
         self.side_bar.pack(side=LEFT, fill=Y)
