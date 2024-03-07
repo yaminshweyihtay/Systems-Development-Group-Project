@@ -75,7 +75,6 @@ class ChngUsername(tk.Frame):
     def begin_set_user(self, input):
         if input is not None:
             input = input.get()
-            print(self.user.get_user_id())
             set_username(self.user, input)
         else:
             print("Enter username first")

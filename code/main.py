@@ -139,6 +139,7 @@ def create_user(user_to_add, pswd):
 def set_username(user, newusername):
     user.set_username(newusername)
     user_id = user.get_user_id()
+    user_id = int(user_id)
     try:
         update("users", f"username = {newusername}", f"userId = {user_id}")
     except Exception as e:
