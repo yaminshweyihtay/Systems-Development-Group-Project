@@ -6,6 +6,7 @@ import os
 import bcrypt
 import pickle
 from User import User
+import joblib
 
 user_list = []
 FILE_NAME = "currentUser.pkl"
@@ -128,7 +129,7 @@ def create_user(user_to_add, pswd):
     salt = str(salt)
     pswd = str(pswd)
     num_of_users = 0
-    for user in user_list:
+    for _ in range(len(user_list)):
         num_of_users += 1
     user_id = num_of_users + 1
     new_user = User(user_id, user_to_add, pswd, salt)
@@ -172,3 +173,14 @@ def open_main_menu(app):
     initialise_objects(None)
     app.destroy()
     os.system('python MainGui.py')
+
+
+def export_machine_learning_model(model):
+    joblib.dump(model, 'ccu_machine_learning_model.pkl')
+
+
+def load_machine_learning_model():
+    try:
+        return joblib.load('ccu_machine_learning_model.pkl')
+    except Exception:
+        return False

@@ -4,6 +4,7 @@ import tkinter.messagebox as tkm
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 import pandas as pd
+from main import export_machine_learning_model
 
 
 # inherits from csv viewer
@@ -32,6 +33,7 @@ class AnalyseFile(tk.Frame):
         model = RandomForestClassifier(max_depth=7)
         model.fit(X_train, y_train)
         progress_bar.step(79.9)
+        export_machine_learning_model(model)
         tkm.showinfo("Complete!", "Machine learning completed!")
 
     def open_csv(self):
