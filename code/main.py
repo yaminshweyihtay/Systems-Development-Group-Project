@@ -1,6 +1,6 @@
 import tkinter.messagebox as tkm
 from Patient import Patient
-from dbFunc import insert, select
+from dbFunc import insert, select, update
 import csv
 import os
 import bcrypt
@@ -107,12 +107,12 @@ def load_current_user():
         return user
 
 def logout(app):
-    initialise_objects()
+    initialise_objects(None)
     global currentUser
     app.master.destroy()
     currentUser = None
     os.remove(FILE_NAME)
-    os.system('python loginGUI.py')
+    os.system('python login.py')
 
 
 def create_user(user_to_add, pswd):
@@ -134,6 +134,31 @@ def create_user(user_to_add, pswd):
         tkm.showerror("Failed to add user!", "The user was not added! " + str(e))
     else:
         tkm.showinfo("Add successful!", "The user was added successfully!")
+
+
+def set_username(user, newusername):
+    user.set_username(newusername)
+    user_id = user.get_user_id()
+    try:
+        update("users", f"username = {newusername}", f"userId = {user_id}")
+    except Exception as e:
+        tkm.showerror("Failed to change username!", "The username was not changed! " + str(e))
+    else:
+        tkm.showinfo("Change successful!", "The username was changed successfully!")
+
+
+def set_password(user, password):
+    user.set_password(password)
+    for i in user_list:
+        if i.get_id() == user.get_id():
+            user_id = i.get_id()
+            break
+    try:
+        update("users", f"pswd = {password}", f"userID = {user_id}")
+    except Exception as e:
+        tkm.showerror("Failed to change password!", "The password was not changed! " + str(e))
+    else:
+        tkm.showinfo("Change successful!", "The password was changed successfully!")
 
 
 def open_main_menu(app):

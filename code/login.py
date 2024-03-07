@@ -38,5 +38,6 @@ class LoginGUI(tk.Tk):
         login_button.pack(side=BOTTOM, fill=X, expand=True)
 
 fetch_user_list()
+print(fetch_user_list)
 app = LoginGUI()
 app.mainloop()

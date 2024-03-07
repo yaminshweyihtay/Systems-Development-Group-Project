@@ -18,12 +18,14 @@ class UserManagement(tk.Frame):
         display = {}
         
         # defining the buttons
+        display['currentUser'] = ttk.Label(frame, text="Logged in as %s" % (self.currentUser.get_username()))
         display['chngUsername'] = ttk.Button(frame, text="Change Username", command=lambda: self.open_new_window(ChngUsername,
-                                        "Change Username", self.refresh, currentUser))
+                                        "Change Username", self.refresh, self.currentUser))
         display['chngPswd'] = ttk.Button(frame, text="Change Password", command=lambda: self.open_new_window(ChngPswd,
-                                        "Change Password", self.refresh, currentUser))
+                                        "Change Password", self.refresh, self.currentUser))
         display['addUser'] = ttk.Button(frame, text="Add User", command=lambda: self.open_new_window(AddUser,
                                         "Add User", self.refresh))
+        display['logout'] = ttk.Button(frame, text="Logout", command=lambda: logout(self))
 
         for i in display.values():
             i.pack(fill='both', expand=True, pady=10, padx=10)
@@ -51,8 +53,6 @@ class UserManagement(tk.Frame):
 class ChngUsername(tk.Frame):
     def __init__(self, container, callback, user):
         super().__init__(container)
-        self.columnconfigure(0, weight=1)
-        self.rowconfigure(0, weight=1)
         self.callback = callback
         self.user = user
         view = self.create_widgets()
@@ -61,26 +61,22 @@ class ChngUsername(tk.Frame):
     def create_widgets(self):
         frame = ttk.Frame(self)
 
-        user0 = ''.join(self.user)
-        for i in user_list:
-            if i.get_username() == user0:
-                user = i
-
         input = tk.StringVar()
         display = {}
         display["user"] = ttk.Label(frame, text="Enter Username:", font=font)
         display["userinput"] = ttk.Entry(frame, textvariable=input, font=font)
-        display["submitButton"] = ttk.Button(frame, text="Submit", command=lambda: self.begin_user_set(user, input))
+        display["submitButton"] = ttk.Button(frame, text="Submit", command=lambda: self.begin_set_user(input))
 
         for i in display.values():
             i.pack(fill='both', expand=True, pady=10, padx=10)
 
         return frame
     
-    def begin_set_user(self, user, input):
+    def begin_set_user(self, input):
         if input is not None:
             input = input.get()
-            #set_username(input, user)
+            print(self.user.get_user_id())
+            set_username(self.user, input)
         else:
             print("Enter username first")
         self.callback()
@@ -89,8 +85,6 @@ class ChngUsername(tk.Frame):
 class ChngPswd(tk.Frame):
     def __init__(self, container, callback, user):
         super().__init__(container)
-        self.columnconfigure(0, weight=1)
-        self.rowconfigure(0, weight=1)
         self.callback = callback
         self.user = user
         view = self.create_widgets()
@@ -98,11 +92,6 @@ class ChngPswd(tk.Frame):
 
     def create_widgets(self):
         frame = ttk.Frame(self)
-
-        user0 = ''.join(self.user)
-        for i in user_list:
-            if i.get_username() == user0:
-                user = i
 
         input = tk.StringVar()
         display = {}
@@ -128,8 +117,6 @@ class ChngPswd(tk.Frame):
 class AddUser(tk.Frame):
     def __init__(self, container, callback):
         super().__init__(container)
-        self.columnconfigure(0, weight=1)
-        self.rowconfigure(0, weight=1)
         self.callback = callback
         view = self.create_widgets()
         view.pack()
