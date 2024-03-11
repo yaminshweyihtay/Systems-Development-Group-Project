@@ -8,11 +8,11 @@ import numpy as np
 class CheckPatient(CTkScrollableFrame):
     def __init__(self, container):
         super().__init__(container)
-        self.columns = ["end_tidal_co2", "feed_vol", "feed_vol_adm", "fio2", "fio2_ratio",
+        self.columns = ["end_tidal_co2", "feed_volume", "feed_volume_administered", "fio2", "fio2_ratio",
                         "insp_time",
-                        "oxygen_flow_rate", "peep", "pip", "resp_rate", "sip", "tidal_vol",
-                        "tidal_vol_actual", "tidal_vol_kg", "tidal_vol_spon",
-                        "bmi"]
+                        "oxygen_flow_rate", "peep", "pip", "resp_rate", "sip", "tidal_volume",
+                        "tidal_volume_actual", "tidal_volume_kg", "tidal_vol_spontaneous",
+                        "Bmi"]
 
         self.configure(corner_radius=0, fg_color="#F1F0F1")
         self.labels = []
