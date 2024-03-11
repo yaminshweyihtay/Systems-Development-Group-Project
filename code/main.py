@@ -148,21 +148,29 @@ def set_username(user, newusername):
     user_id = user.get_user_id()
     user_id = int(user_id)
     try:
-        update("users", f"username = {newusername}", f"userId = {user_id}")
+        update("users", f"username = '{newusername}'", f"userId = {user_id}")
     except Exception as e:
         tkm.showerror("Failed to change username!", "The username was not changed! " + str(e))
     else:
         tkm.showinfo("Change successful!", "The username was changed successfully!")
 
 
-def set_password(user, password):
-    user.set_password(password)
-    for i in user_list:
-        if i.get_id() == user.get_id():
-            user_id = i.get_id()
-            break
+def set_password(user, newpassword):
+    salt = bcrypt.gensalt()
+    pswd = newpassword.encode('utf-8')
+    pswd = bcrypt.hashpw(pswd, salt)
+    salt = str(salt)
+    pswd = str(pswd)
+    user.set_password(pswd)
+    user.set_salt(salt)
+    user_id = user.get_user_id()
+    user_id = int(user_id)
+    pswd = ''.join(f"'{pswd}'")
+    salt = ''.join(f"'{salt}'")
+    print(pswd)
+    print(salt)
     try:
-        update("users", f"pswd = {password}", f"userID = {user_id}")
+        update("users", f"pswd = {pswd}, salt = {salt}", f"userId = {user_id}")
     except Exception as e:
         tkm.showerror("Failed to change password!", "The password was not changed! " + str(e))
     else:

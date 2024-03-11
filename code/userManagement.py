@@ -96,17 +96,17 @@ class ChngPswd(tk.Frame):
         display = {}
         display["pswd"] = ttk.Label(frame, text="Enter Password:", font=font)
         display["pswdInput"] = ttk.Entry(frame, textvariable=input, font=font)
-        display["submitButton"] = ttk.Button(frame, text="Submit", command=lambda: self.begin_set_pswd(user, input))
+        display["submitButton"] = ttk.Button(frame, text="Submit", command=lambda: self.begin_set_pswd(input))
 
         for i in display.values():
             i.pack(fill='both', expand=True, pady=10, padx=10)
 
         return frame
     
-    def begin_set_pswd(self, user, input):
+    def begin_set_pswd(self, input):
         if input is not None:
             input = input.get()
-            #set_password(input, user)
+            set_password(self.user, input)
         else:
             print("Enter password first")
         self.callback()
