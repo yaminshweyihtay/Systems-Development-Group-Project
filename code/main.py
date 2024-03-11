@@ -165,12 +165,8 @@ def set_password(user, newpassword):
     user.set_salt(salt)
     user_id = user.get_user_id()
     user_id = int(user_id)
-    pswd = ''.join(f"'{pswd}'")
-    salt = ''.join(f"'{salt}'")
-    print(pswd)
-    print(salt)
     try:
-        update("users", f"pswd = {pswd}, salt = {salt}", f"userId = {user_id}")
+        update("users", f'pswd = "{pswd}", salt = "{salt}"', f"userId = {user_id}")
     except Exception as e:
         tkm.showerror("Failed to change password!", "The password was not changed! " + str(e))
     else:
