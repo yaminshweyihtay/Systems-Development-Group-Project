@@ -8,6 +8,9 @@ import pickle
 from User import User
 import joblib
 
+title_font = ("Arial", 14)
+content_font = ("Arial", 12)
+
 user_list = []
 FILE_NAME = "currentUser.pkl"
 

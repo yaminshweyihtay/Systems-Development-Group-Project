@@ -1,7 +1,7 @@
 import tkinter as tk
-from tkinter import ttk, messagebox as tkm
+from tkinter import ttk, TOP, X, messagebox as tkm
 from customtkinter import CTkScrollableFrame
-from main import load_machine_learning_model
+from main import load_machine_learning_model, title_font, content_font
 import numpy as np
 
 
@@ -21,10 +21,12 @@ class CheckPatient(CTkScrollableFrame):
         self.create_widgets()
 
     def create_widgets(self):
+        title = ttk.Label(self, text="Input all patient measurements:", font=title_font)
+        title.pack(side=TOP, fill=X)
         for column in self.columns:
-            label = ttk.Label(self, text=column + ":")
+            label = ttk.Label(self, text=column + ":", font=content_font)
             user_in = tk.StringVar()
-            text_input = ttk.Entry(self, textvariable=user_in)
+            text_input = ttk.Entry(self, textvariable=user_in, font=content_font)
             self.user_inputs.append(user_in)
             self.labels.append(label)
             self.text_inputs.append(text_input)
