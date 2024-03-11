@@ -4,7 +4,7 @@ import tkinter.messagebox as tkm
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 import pandas as pd
-from main import export_machine_learning_model
+from main import export_machine_learning_model, title_font
 
 
 # inherits from csv viewer
@@ -14,7 +14,7 @@ class AnalyseFile(tk.Frame):
         self.create_widgets()
 
     def create_widgets(self):
-        title_label = ttk.Label(self, text="Upload patient csv to train machine learning algorithm")
+        title_label = ttk.Label(self, text="Upload patient csv to train machine learning algorithm", font=title_font)
         progress_bar = ttk.Progressbar(self, orient=HORIZONTAL)
         upload_button = ttk.Button(self, text="CLick here to upload file",
                                    command=lambda: self.do_machine_learning(progress_bar))
