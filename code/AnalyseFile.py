@@ -28,7 +28,7 @@ class AnalyseFile(tk.Frame):
         progress_bar.step(10)
         X = csv_data.drop(['referral'], axis=1)
         y = csv_data['referral']
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=1)
+        X_train, _, y_train, _ = train_test_split(X, y, test_size=0.3, random_state=1)
         progress_bar.step(10)
         model = RandomForestClassifier(max_depth=7)
         model.fit(X_train, y_train)

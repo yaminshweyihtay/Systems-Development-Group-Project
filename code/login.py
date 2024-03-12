@@ -4,7 +4,6 @@ from tkinter import LEFT, RIGHT, BOTTOM, X
 from main import login, fetch_user_list, title_font
 
 
-
 # defining the login gui class
 class LoginGUI(tk.Tk):
     def __init__(self):

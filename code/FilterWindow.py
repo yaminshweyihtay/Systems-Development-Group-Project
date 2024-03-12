@@ -1,5 +1,6 @@
 import tkinter as tk
-from tkinter import ttk, BOTTOM, X
+from customtkinter import CTkScrollableFrame
+from tkinter import ttk, BOTTOM, X, BOTH
 
 
 class FilterWindow(tk.Toplevel):
@@ -17,21 +18,24 @@ class FilterWindow(tk.Toplevel):
         self.create_widgets()
 
     def create_widgets(self):
+        display_frame = CTkScrollableFrame(self)
+        display_frame.configure(corner_radius=0, fg_color="#F1F0F1")
         columns = self.csv_data['columns']
 
-        close_button = ttk.Button(self, text="Close", command=self.close_window)
+        close_button = ttk.Button(display_frame, text="Close", command=self.close_window)
 
         check_boxes = []
 
         # display check boxes each labeled using the treeview's column names
         for column in columns[1:-1]:
             state = tk.BooleanVar(value=self.mark_check_boxes(column))
-            show_hide_column = ttk.Checkbutton(self, text=column, variable=state,
+            show_hide_column = ttk.Checkbutton(display_frame, text=column, variable=state,
                                                command=lambda col=column, var=state: self.toggle_column(col))
             show_hide_column.pack(fill=X, pady=5)
             check_boxes.append(show_hide_column)
 
         close_button.pack(fill=X, side=BOTTOM)
+        display_frame.pack(fill=BOTH, expand=True)
 
     def toggle_column(self, column):
         self.toggle(column)

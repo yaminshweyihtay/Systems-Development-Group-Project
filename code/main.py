@@ -111,9 +111,13 @@ def save_current_user():
 
 
 def load_current_user():
-    with open(FILE_NAME, 'rb') as file:
-        user = pickle.load(file)
-        return user
+    try:
+        with open(FILE_NAME, 'rb') as file:
+            user = pickle.load(file)
+            return user
+    except Exception:
+        tkm.showerror("Login Required!", "You need to login first before accessing the main program!")
+        return False
 
 
 def logout(app):
@@ -146,12 +150,12 @@ def create_user(user_to_add, pswd):
         tkm.showinfo("Add successful!", "The user was added successfully!")
 
 
-def set_username(user, newusername):
-    user.set_username(newusername)
+def set_username(user, new_user_name):
+    user.set_username(new_user_name)
     user_id = user.get_user_id()
     user_id = int(user_id)
     try:
-        update("users", f"username = '{newusername}'", f"userId = {user_id}")
+        update("users", f"username = '{new_user_name}'", f"userId = {user_id}")
     except Exception as e:
         tkm.showerror("Failed to change username!", "The username was not changed! " + str(e))
     else:

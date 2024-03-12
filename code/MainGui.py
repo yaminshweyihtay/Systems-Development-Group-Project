@@ -1,3 +1,4 @@
+import os
 import tkinter as tk
 from tkinter import LEFT, Y, BOTH
 from Sidebar import Sidebar
@@ -5,11 +6,17 @@ from CsvViewer import CsvViewer
 from AnalyseFile import AnalyseFile
 from CheckPatient import CheckPatient
 from userManagement import UserManagement
+from main import load_current_user
 
 
 class MainGui(tk.Tk):
     def __init__(self):
         super().__init__()
+        self.logged_in = load_current_user()
+        if not self.is_logged_in():
+            return None
+
+        self.protocol("WM_DELETE_WINDOW", self.close_gui)
         self.geometry("800x600")
         self.title("Critical Care Unit Management Program")
         self.minsize(400, 400)
@@ -44,6 +51,20 @@ class MainGui(tk.Tk):
         # Set the current_frame attribute to the newly displayed frame
         self.current_frame = frame
 
+    # function for removing the current user and machine learning file on close
+    def close_gui(self):
+        self.destroy()
+        if os.path.exists("currentUser.pkl"):
+            os.remove("currentUser.pkl")
+
+        if os.path.exists("ccu_machine_learning_model.pkl"):
+            os.remove("ccu_machine_learning_model.pkl")
+
+    def is_logged_in(self):
+        return self.logged_in
+
 
 app = MainGui()
+if not app.is_logged_in():
+    app.destroy()
 app.mainloop()

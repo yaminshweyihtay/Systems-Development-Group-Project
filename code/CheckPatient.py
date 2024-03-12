@@ -42,8 +42,7 @@ class CheckPatient(CTkScrollableFrame):
         if not model:
             tkm.showerror("Analysis needed!",
                           "A machine learning algorithm needs to be trained first, head to analyse patient csv file")
-        else:
-            print("Here!")
+        elif converted_inputs:
             converted_inputs = converted_inputs.reshape(1, -1)  # Assign the reshaped array back to converted_inputs
             prediction = model.predict(converted_inputs)
             if prediction == 0:
