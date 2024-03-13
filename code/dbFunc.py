@@ -8,6 +8,9 @@ USERNAME = "root"
 # change this to your root password for your DBMS (MySql)
 PASSWD = "root"
 
+CONNECTION_ERROR_MSG = "Unable to connect to the database; please check credentials!"
+CONNECTION_ERROR_TITLE = "Connection error!"
+
 
 # connecting to the database
 def connect_to_database():
@@ -18,14 +21,15 @@ def connect_to_database():
                                        database=DATABASE_NAME)
     except mysql.connector.Error as err:
         if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-            print("Username and/or password incorrect")
+            tkm.showerror(CONNECTION_ERROR_TITLE, "Invalid DBMS credentials")
         elif err.errno == errorcode.ER_BAD_DB_ERROR:
-            print("Invalid database")
+            tkm.showerror(CONNECTION_ERROR_TITLE, CONNECTION_ERROR_MSG)
         else:
-            print(err)
+            tkm.showerror(CONNECTION_ERROR_TITLE, err)
+        quit(1)
     else:
         if conn is None:
-            print("Connection not established")
+            tkm.showerror(CONNECTION_ERROR_TITLE, CONNECTION_ERROR_MSG)
         else:
             return conn
 
@@ -35,9 +39,9 @@ def select(table_name, operator="*", where=None):
     conn = connect_to_database()
     try:
         dbcursor = conn.cursor()
-    except:
+    except mysql.connector.Error:
         tkm.showerror(
-            "Connection error!", "Unable to connect to the database; please check credentials!"
+            CONNECTION_ERROR_TITLE, CONNECTION_ERROR_MSG
         )
     else:
         if where is None:
@@ -56,9 +60,9 @@ def select_count(table_name, operator="*", where=None):
     conn = connect_to_database()
     try:
         dbcursor = conn.cursor()
-    except:
+    except mysql.connector.Error:
         tkm.showerror(
-            "Connection error!", "Unable to connect to the database; please check credentials!"
+            CONNECTION_ERROR_TITLE, CONNECTION_ERROR_MSG
         )
     else:
         if where is None:
@@ -68,7 +72,6 @@ def select_count(table_name, operator="*", where=None):
             statement = "SELECT COUNT(*) FROM {} WHERE {};".format(table_name, where)
         dbcursor.execute(statement)
         result = dbcursor.fetchall()
-        #   print(result[0][0])
         return result
 
 
@@ -77,17 +80,15 @@ def update(table_name, set, where):
     # Checking to see if the connection was successful and if not output an error message
     try:
         dbcursor = conn.cursor()
-    except Exception as e:
-        tkm.showerror("Connection error!", f"Unable to connect to the database; {e}")
+    except mysql.connector.Error as e:
+        tkm.showerror(CONNECTION_ERROR_TITLE, f" {CONNECTION_ERROR_MSG}, {e}")
         return False
     else:
-        if not dbcursor:
-            return False
         statement = f"UPDATE {table_name} SET {set} WHERE {where};"
         try:
             dbcursor.execute(statement)
             conn.commit()
-        except Exception as e:
+        except mysql.connector.Error as e:
             tkm.showerror("Error", f"Error inserting record; {e}")
         finally:
             dbcursor.close()
@@ -99,12 +100,10 @@ def insert(table_name, columns, values):
     # Checking to see if the connection was successful and if not output an error message
     try:
         dbcursor = conn.cursor()
-    except Exception as e:
-        tkm.showerror("Connection error!", f"Unable to connect to the database; {e}")
+    except mysql.connector.Error as e:
+        tkm.showerror(CONNECTION_ERROR_TITLE, f" {CONNECTION_ERROR_MSG} {e}")
         return False
     else:
-        if not dbcursor:
-            return False
         placeholders = ', '.join(['%s'] * len(values))
         statement = f"INSERT INTO {table_name} ({', '.join(columns)}) VALUES ({placeholders})"
         try:
@@ -126,9 +125,9 @@ def delete(table_name, where):
     # checking to see if the connection was successful and if not output an error message
     try:
         dbcursor = conn.cursor()
-    except:
+    except mysql.connector.Error:
         tkm.showerror(
-            "Connection error!", "Unable to connect to the database; please check credentials!"
+            CONNECTION_ERROR_TITLE, CONNECTION_ERROR_MSG
         )
     if not dbcursor:
         return False

@@ -14,21 +14,22 @@ class ChangePswd(tk.Frame):
     def create_widgets(self):
         frame = ttk.Frame(self)
 
-        input = tk.StringVar()
+        new_password_input = tk.StringVar()
         display = {}
         display["pswd"] = ttk.Label(frame, text="Enter Password:", font=font)
-        display["pswdInput"] = ttk.Entry(frame, textvariable=input, font=font)
-        display["submitButton"] = ttk.Button(frame, text="Submit", command=lambda: self.begin_set_pswd(input))
+        display["pswdInput"] = ttk.Entry(frame, textvariable=new_password_input, font=font)
+        display["submitButton"] = ttk.Button(frame, text="Submit",
+                                             command=lambda: self.begin_set_pswd(new_password_input))
 
         for i in display.values():
             i.pack(fill='both', expand=True, pady=10, padx=10)
 
         return frame
 
-    def begin_set_pswd(self, input):
-        if input is not None:
-            input = input.get()
-            set_password(self.user, input)
+    def begin_set_pswd(self, new_password):
+        if new_password is not None:
+            new_password = new_password.get()
+            set_password(self.user, new_password)
         else:
             print("Enter password first")
         self.callback()

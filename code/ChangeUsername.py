@@ -14,21 +14,22 @@ class ChangeUsername(tk.Frame):
     def create_widgets(self):
         frame = ttk.Frame(self)
 
-        input = tk.StringVar()
+        new_username_input = tk.StringVar()
         display = {}
         display["user"] = ttk.Label(frame, text="Enter Username:", font=font)
-        display["userinput"] = ttk.Entry(frame, textvariable=input, font=font)
-        display["submitButton"] = ttk.Button(frame, text="Submit", command=lambda: self.begin_set_user(input))
+        display["userinput"] = ttk.Entry(frame, textvariable=new_username_input, font=font)
+        display["submitButton"] = ttk.Button(frame, text="Submit",
+                                             command=lambda: self.begin_set_user(new_username_input))
 
         for i in display.values():
             i.pack(fill='both', expand=True, pady=10, padx=10)
 
         return frame
 
-    def begin_set_user(self, input):
-        if input is not None:
-            input = input.get()
-            set_username(self.user, input)
+    def begin_set_user(self, new_user_name):
+        if new_user_name is not None:
+            new_user_name = new_user_name.get()
+            set_username(self.user, new_user_name)
         else:
             print("Enter username first")
         self.callback()

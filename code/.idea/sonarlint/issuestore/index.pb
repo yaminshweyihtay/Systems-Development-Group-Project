@@ -33,3 +33,14 @@ Sidebar.py,f\6\f6d5ba6da49dcd72d918bf82cae8252933c4ee81
 AnalyseFile.py,1\e\1ebccbb3ebd304e4d86968ae4b4a561f5708447e
 ?
 FilterWindow.py,1\8\18d0f0004d71f7fdb88415766b79552751abf85a
+:
+
+AddUser.py,c\6\c6316be899aa7232766ced35c5d7e547d73cb3bd
+A
+ChangeUsername.py,2\4\2442dced9301cb4d1940a5964c3e45bea9fc1dc5
+>
+ChangePaswd.py,6\c\6c9ce8227fa57322071876a1382bdccfa75629bb
+7
+temp.py,1\a\1a1bcc8d7501d343f874d45fa35b14909cae3499
+A
+userManagement.py,5\1\51f43d4c5ca1752b1fb9a598893fcefc84a23be3
