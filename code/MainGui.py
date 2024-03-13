@@ -14,7 +14,7 @@ class MainGui(tk.Tk):
         super().__init__()
         self.logged_in = load_current_user()
         if not self.is_logged_in():
-            return None
+            exit(1)
 
         self.protocol("WM_DELETE_WINDOW", self.close_gui)
         self.geometry("800x600")
@@ -65,6 +65,4 @@ class MainGui(tk.Tk):
 
 
 app = MainGui()
-if not app.is_logged_in():
-    app.destroy()
 app.mainloop()

@@ -13,6 +13,7 @@ class FilterWindow(tk.Toplevel):
         self.reset_button = reset_button
         self.title("Show / Hide Columns")
         self.geometry("400x520")
+        self.maxsize(400, 520)
         # treeview passed on from csv_viewer
         self.csv_data = csv_data
         self.create_widgets()
