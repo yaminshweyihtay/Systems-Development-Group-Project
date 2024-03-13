@@ -38,19 +38,24 @@ class CheckPatient(CTkScrollableFrame):
 
     def check_patient(self):
         converted_inputs = self.validate_inputs()
+
+        # if validate inputs returns a boolean return false
+        if isinstance(converted_inputs, bool):
+            return False
+
         model = load_machine_learning_model()
         if not model:
             tkm.showerror("Analysis needed!",
                           "A machine learning algorithm needs to be trained first, head to analyse patient csv file")
-        elif converted_inputs:
-            converted_inputs = converted_inputs.reshape(1, -1)  # Assign the reshaped array back to converted_inputs
-            prediction = model.predict(converted_inputs)
-            if prediction == 0:
-                tkm.showinfo("Dietitian should not be required",
-                             "Based on the data inputted, the patient should not need to see a dietitian")
-            else:
-                tkm.showinfo("Dietitian should be required", "Based on the data inputted, the patient should see a "
-                                                             "dietitian")
+            return False
+        converted_inputs = converted_inputs.reshape(1, -1)  # Assign the reshaped array back to converted_inputs
+        prediction = model.predict(converted_inputs)
+        if prediction == 0:
+            tkm.showinfo("Dietitian should not be required",
+                         "Based on the data inputted, the patient should not need to see a dietitian")
+        else:
+            tkm.showwarning("Dietitian should be required", "Based on the data inputted, the patient should see a "
+                                                            "dietitian")
 
     def validate_inputs(self):
         converted_inputs = []

@@ -26,7 +26,6 @@ class MainGui(tk.Tk):
         self.content.append(AnalyseFile(self))
         self.content.append(CheckPatient(self))
         self.content.append(UserManagement(self))
-        self.current_display = None
         # sending frames to sidebar
         self.side_bar = Sidebar(self, self.display_content)
         self.side_bar.pack(side=LEFT, fill=Y)
