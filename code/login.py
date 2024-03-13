@@ -12,20 +12,22 @@ class LoginGUI(tk.Tk):
         self.title("Login")
         self.geometry("400x250")
         self.minsize(180, 180)
+        # defining the text input variables
+        self.username = tk.StringVar()
+        self.password = tk.StringVar()
+        self.bind('<Return>', self.begin_login)
         # placing the widgets on the GUI
         self.create_widgets()
 
     def create_widgets(self):
-        # defining the text input variables
-        username = tk.StringVar()
-        password = tk.StringVar()
         username_frame = ttk.Frame(self)
         password_frame = ttk.Frame(self)
         username_label = ttk.Label(username_frame, text="Username:", font=title_font)
-        username_input = ttk.Entry(username_frame, textvariable=username, font=title_font)
+        username_input = ttk.Entry(username_frame, textvariable=self.username, font=title_font)
         password_label = ttk.Label(password_frame, text="Password:", font=title_font)
-        password_input = ttk.Entry(password_frame, textvariable=password, show="*", font=title_font)
-        login_button = ttk.Button(self, text="Submit", command=lambda: login(username.get(), password.get(), app))
+        password_input = ttk.Entry(password_frame, textvariable=self.password, show="*", font=title_font)
+        login_button = ttk.Button(self, text="Submit",
+                                  command=self.begin_login)
         username_label.pack(side=LEFT)
         username_input.pack(side=RIGHT, expand=True, fill=X)
         password_label.pack(side=LEFT)
@@ -33,6 +35,11 @@ class LoginGUI(tk.Tk):
         username_frame.pack(fill=X, padx=5, pady=5, expand=True)
         password_frame.pack(fill=X, padx=5, pady=5, expand=True)
         login_button.pack(side=BOTTOM, fill=X, expand=True)
+
+    def begin_login(self, event=None):
+        # variable to make sonar lint happy
+        _ = event
+        login(self.username.get(), self.password.get(), self)
 
 
 fetch_user_list()

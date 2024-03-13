@@ -83,6 +83,7 @@ def login(username=None, password=None, app=None):
     # if no user to login is found then the user does not exist
     if user_to_login is None:
         tkm.showerror("Error", "User not found!")
+        return False
     else:
         # checking if the password is correct
         password = password.encode('utf-8')
@@ -98,7 +99,8 @@ def login(username=None, password=None, app=None):
             # if password is correct assign the current user to the selected user object
             currentUser = user_to_login
             save_current_user()
-            open_main_menu(app)
+            app.destroy()
+            open_main_menu()
             return True
         else:
             tkm.showerror("Failure", "Password incorrect!")
@@ -180,9 +182,8 @@ def set_password(user, newpassword):
         tkm.showinfo("Change successful!", "The password was changed successfully!")
 
 
-def open_main_menu(app):
+def open_main_menu():
     initialise_objects(None)
-    app.destroy()
     os.system('python MainGui.py')
 
 
