@@ -64,40 +64,29 @@ def fetch_user_list():
     return user_list
 
 
+def does_user_exist(user_name):
+    for user in user_list:
+        if user.get_username() == user_name:
+            user_to_login = user
+            return user_to_login
+    return False
+
+
 # function for logging in
 def login(username=None, password=None, app=None):
     # making sure current user is assigned correctly
-    global currentUser
-    user_to_login = None
-    # and assigning the userToLogin variable to that user object
-    for user in user_list:
-        if username is not None:
-            if user.get_username() == username:
-                currentUser = user
-                user_to_login = user
-                break
-            else:
-                continue
-        else:
-            continue
+    global current_user
+    user_to_login = does_user_exist(username)
     # if no user to login is found then the user does not exist
-    if user_to_login is None:
+    if user_to_login is False:
         tkm.showerror("Error", "User not found!")
         return False
     else:
-        # checking if the password is correct
-        password = password.encode('utf-8')
         salt = user_to_login.get_salt()
-        salt = salt.encode('utf-8')
-        salt = salt[2:len(salt) - 1]
-        hashedpw = bcrypt.hashpw(password, salt)
         password_to_check = user_to_login.get_password()
-        # converting the password to bytes for hashing
-        password_to_check = password_to_check.encode('utf-8')
-        password_to_check = password_to_check[2:len(password_to_check) - 1]
-        if password_to_check == hashedpw:
+        if check_password(salt, password, password_to_check):
             # if password is correct assign the current user to the selected user object
-            currentUser = user_to_login
+            current_user = user_to_login
             save_current_user()
             app.destroy()
             open_main_menu()
@@ -109,7 +98,7 @@ def login(username=None, password=None, app=None):
 
 def save_current_user():
     with open(FILE_NAME, 'wb') as file:
-        pickle.dump(currentUser, file)
+        pickle.dump(current_user, file)
 
 
 def load_current_user():
@@ -124,21 +113,16 @@ def load_current_user():
 
 def logout(app):
     initialise_objects(None)
-    global currentUser
+    global current_user
     app.master.destroy()
-    currentUser = None
+    current_user = None
     os.remove(FILE_NAME)
     os.system('python login.py')
 
 
 def create_user(user_to_add, pswd):
-    salt = bcrypt.gensalt()
-    pswd = pswd.encode('utf-8')
-    pswd = bcrypt.hashpw(pswd, salt)
-    salt = str(salt)
-    pswd = str(pswd)
+    salt, pswd = generate_password(pswd)
     user_id = len(user_list) + 1
-    print(user_id)
     new_user = User(user_id, user_to_add, pswd, salt)
     user_list.append(new_user)
     try:
@@ -162,12 +146,26 @@ def set_username(user, new_user_name):
         tkm.showinfo("Change successful!", "The username was changed successfully!")
 
 
-def set_password(user, newpassword):
+def generate_password(password):
     salt = bcrypt.gensalt()
-    pswd = newpassword.encode('utf-8')
-    pswd = bcrypt.hashpw(pswd, salt)
-    salt = str(salt)
-    pswd = str(pswd)
+    password = password.encode('utf-8')
+    password = bcrypt.hashpw(password, salt)
+    return str(salt), str(password)
+
+
+def check_password(salt, input_password, correct_password):
+    input_password = input_password.encode('utf-8')
+    salt = salt.encode('utf-8')
+    salt = salt[2:len(salt) - 1]
+    hashed_password = bcrypt.hashpw(input_password, salt)
+    # converting the password to bytes for hashing
+    if str(hashed_password) == str(correct_password):
+        return True
+    return False
+
+
+def set_password(user, newpassword):
+    salt, pswd = generate_password(newpassword)
     user.set_password(pswd)
     user.set_salt(salt)
     user_id = user.get_user_id()
