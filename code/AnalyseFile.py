@@ -3,6 +3,7 @@ from tkinter import ttk, BOTH, X, TOP, filedialog, HORIZONTAL
 import tkinter.messagebox as tkm
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.svm import SVC
 import pandas as pd
 from main import export_machine_learning_model, title_font
 
