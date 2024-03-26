@@ -4,6 +4,7 @@ from tkinter import BOTH
 from customtkinter import CTkScrollableFrame
 from main import ICON_PATH, app_id
 import ctypes
+
 ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(app_id)
 
 

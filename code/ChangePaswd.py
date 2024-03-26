@@ -15,11 +15,10 @@ class ChangePswd(tk.Frame):
         frame = ttk.Frame(self)
 
         new_password_input = tk.StringVar()
-        display = {}
-        display["pswd"] = ttk.Label(frame, text="Enter Password:", font=font)
-        display["pswdInput"] = ttk.Entry(frame, textvariable=new_password_input, font=font)
-        display["submitButton"] = ttk.Button(frame, text="Submit",
-                                             command=lambda: self.begin_set_pswd(new_password_input))
+        display = {"pswd": ttk.Label(frame, text="Enter Password:", font=font),
+                   "pswdInput": ttk.Entry(frame, textvariable=new_password_input, font=font),
+                   "submitButton": ttk.Button(frame, text="Submit",
+                                              command=lambda: self.begin_set_pswd(new_password_input))}
 
         for i in display.values():
             i.pack(fill='both', expand=True, pady=10, padx=10)

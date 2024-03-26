@@ -15,11 +15,10 @@ class ChangeUsername(tk.Frame):
         frame = ttk.Frame(self)
 
         new_username_input = tk.StringVar()
-        display = {}
-        display["user"] = ttk.Label(frame, text="Enter Username:", font=font)
-        display["userinput"] = ttk.Entry(frame, textvariable=new_username_input, font=font)
-        display["submitButton"] = ttk.Button(frame, text="Submit",
-                                             command=lambda: self.begin_set_user(new_username_input))
+        display = {"user": ttk.Label(frame, text="Enter Username:", font=font),
+                   "userinput": ttk.Entry(frame, textvariable=new_username_input, font=font),
+                   "submitButton": ttk.Button(frame, text="Submit",
+                                              command=lambda: self.begin_set_user(new_username_input))}
 
         for i in display.values():
             i.pack(fill='both', expand=True, pady=10, padx=10)

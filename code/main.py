@@ -192,5 +192,5 @@ def export_machine_learning_model(model):
 def load_machine_learning_model():
     try:
         return joblib.load('ccu_machine_learning_model.pkl')
-    except Exception:
+    except FileNotFoundError:
         return False

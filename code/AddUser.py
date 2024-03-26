@@ -15,13 +15,12 @@ class AddUser(tk.Frame):
         username = tk.StringVar()
         password = tk.StringVar()
 
-        display = {}
-        display["user"] = ttk.Label(frame, text="Enter Username:", font=font)
-        display["userinput"] = ttk.Entry(frame, textvariable=username, font=font)
-        display["pswd"] = ttk.Label(frame, text="Enter Password:", font=font)
-        display["pswdInput"] = ttk.Entry(frame, textvariable=password, font=font)
-        display["submitButton"] = ttk.Button(frame, text="Submit", command=lambda: self.begin_add_user(username,
-                                                                                                       password))
+        display = {"user": ttk.Label(frame, text="Enter Username:", font=font),
+                   "userinput": ttk.Entry(frame, textvariable=username, font=font),
+                   "pswd": ttk.Label(frame, text="Enter Password:", font=font),
+                   "pswdInput": ttk.Entry(frame, textvariable=password, font=font),
+                   "submitButton": ttk.Button(frame, text="Submit", command=lambda: self.begin_add_user(username,
+                                                                                                        password))}
 
         for i in display.values():
             i.pack(fill='both', expand=True, pady=10, padx=10)
