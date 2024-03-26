@@ -1,7 +1,9 @@
 import tkinter as tk
 from customtkinter import CTkScrollableFrame
 from tkinter import ttk, BOTTOM, X, BOTH
-from main import ICON_PATH
+from main import ICON_PATH, app_id
+import ctypes
+ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(app_id)
 
 
 class FilterWindow(tk.Toplevel):

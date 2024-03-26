@@ -6,7 +6,9 @@ from CsvViewer import CsvViewer
 from AnalyseFile import AnalyseFile
 from CheckPatient import CheckPatient
 from userManagement import UserManagement
-from main import load_current_user, ICON_PATH
+from main import load_current_user, ICON_PATH, app_id
+import ctypes
+ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(app_id)
 
 
 class MainGui(tk.Tk):

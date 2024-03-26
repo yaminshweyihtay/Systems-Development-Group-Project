@@ -8,6 +8,7 @@ import pickle
 from User import User
 import joblib
 
+app_id = 'mycompany.myproduct.subproduct.version'
 title_font = ("Arial", 14)
 content_font = ("Arial", 12)
 ICON_PATH = "Icon.ico"

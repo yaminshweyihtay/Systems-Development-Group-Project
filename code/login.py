@@ -1,8 +1,9 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import LEFT, RIGHT, BOTTOM, X
-from main import login, fetch_user_list, title_font, ICON_PATH
-
+from main import login, fetch_user_list, title_font, ICON_PATH, app_id
+import ctypes
+ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(app_id)
 
 # defining the login gui class
 class LoginGUI(tk.Tk):
