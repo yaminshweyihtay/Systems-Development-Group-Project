@@ -6,12 +6,13 @@ from CsvViewer import CsvViewer
 from AnalyseFile import AnalyseFile
 from CheckPatient import CheckPatient
 from userManagement import UserManagement
-from main import load_current_user
+from main import load_current_user, ICON_PATH
 
 
 class MainGui(tk.Tk):
     def __init__(self):
         super().__init__()
+        self.iconbitmap(ICON_PATH)
         self.logged_in = load_current_user()
         if not self.is_logged_in():
             exit(1)

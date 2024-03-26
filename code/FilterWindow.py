@@ -1,11 +1,13 @@
 import tkinter as tk
 from customtkinter import CTkScrollableFrame
 from tkinter import ttk, BOTTOM, X, BOTH
+from main import ICON_PATH
 
 
 class FilterWindow(tk.Toplevel):
     def __init__(self, parent, csv_data, toggle, get_hidden, reset_button):
         super().__init__(parent)
+        self.iconbitmap(ICON_PATH)
         self.toggle = toggle
         self.get_hidden = get_hidden
         # code to ensure the filter button will re-enable if the window is closed force fully

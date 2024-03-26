@@ -2,11 +2,13 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import BOTH
 from customtkinter import CTkScrollableFrame
+from main import ICON_PATH
 
 
 class AboutPage(tk.Toplevel):
     def __init__(self, parent):
         super().__init__(parent)
+        self.iconbitmap(ICON_PATH)
         self.title("About")
         self.geometry("760x300")
         self.display_frame = CTkScrollableFrame(self)

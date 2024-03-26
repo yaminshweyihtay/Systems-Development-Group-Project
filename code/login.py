@@ -1,13 +1,14 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import LEFT, RIGHT, BOTTOM, X
-from main import login, fetch_user_list, title_font
+from main import login, fetch_user_list, title_font, ICON_PATH
 
 
 # defining the login gui class
 class LoginGUI(tk.Tk):
     def __init__(self):
         super().__init__()
+        self.iconbitmap(ICON_PATH)
         # setting the window size
         self.title("Login")
         self.geometry("400x250")

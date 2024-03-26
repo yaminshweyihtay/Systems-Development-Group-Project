@@ -10,6 +10,7 @@ import joblib
 
 title_font = ("Arial", 14)
 content_font = ("Arial", 12)
+ICON_PATH = "Icon.ico"
 
 user_list = []
 FILE_NAME = "currentUser.pkl"
