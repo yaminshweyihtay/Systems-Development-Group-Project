@@ -28,17 +28,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.MainGui.executor&quot;: &quot;Run&quot;,
-    &quot;Python.dbFunc.executor&quot;: &quot;Run&quot;,
-    &quot;Python.login.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/William Forber/Documents/Computer science/Year 2/Systems Development/systems-development-group-work/code&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.MainGui.executor": "Run",
+    "Python.dbFunc.executor": "Run",
+    "Python.login.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "C:/Users/William Forber/Documents/Computer science/Year 2/Systems Development/systems-development-group-work/code"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="login" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="code" />

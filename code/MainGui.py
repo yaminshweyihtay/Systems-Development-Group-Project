@@ -54,7 +54,7 @@ class MainGui(tk.Tk):
         # Set the current_frame attribute to the newly displayed frame
         self.current_frame = frame
 
-    # function for removing the current user and machine learning file on close
+    # function for removing the current user and machine learning file when app closed
     def close_gui(self):
         self.destroy()
         if os.path.exists("currentUser.pkl"):

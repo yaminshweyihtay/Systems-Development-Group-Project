@@ -51,7 +51,7 @@ def fetch_patients(file_path):
             if isinstance(e, IndexError):
                 tkm.showerror("Error!", "The inputted csv is of the incorrect format!")
             else:
-                tkm.showerror("File not found", "The file at ", file_path, " was not found!")
+                tkm.showerror("File not found", "The file at " + str(file_path) + " was not found!")
             return False
         return patients
 
@@ -108,7 +108,7 @@ def load_current_user():
         with open(FILE_NAME, 'rb') as file:
             user = pickle.load(file)
             return user
-    except Exception:
+    except FileNotFoundError:
         tkm.showerror("Login Required!", "You need to login first before accessing the main program!")
         return False
 
