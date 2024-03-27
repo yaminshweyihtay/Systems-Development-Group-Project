@@ -4,7 +4,7 @@ import tkinter.messagebox as tkm
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 import pandas as pd
-from main import export_machine_learning_model, title_font
+from main import export_machine_learning_model, title_font, COLUMNS
 
 
 # inherits from csv viewer
@@ -37,12 +37,18 @@ class AnalyseFile(tk.Frame):
             progress_bar.step(79.9)
             export_machine_learning_model(model)
             tkm.showinfo("Complete!", "Machine learning completed!")
+        else:
+            tkm.showerror("Invalid CSV", "The inputted CSV file is not of the correct format!")
 
-    def open_csv(self):
+    @staticmethod
+    def open_csv():
         file_path = filedialog.askopenfilename(title="Upload CSV File", filetypes=[("CSV files", "*.csv")])
         # if statement to prevent error if user chooses not to upload file
         if file_path:
             csv_data = pd.read_csv(file_path)
+            # if statement to check if CSV is valid
+            if list(csv_data.columns) != COLUMNS:
+                return None
             # having to do this because apparently ['encounterId'] isn't there, but it actually is
             csv_data.drop(columns=[col for col in csv_data.columns if col.lower() == 'encounterid'], inplace=True)
             # removing null values

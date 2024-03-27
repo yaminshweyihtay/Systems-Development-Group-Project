@@ -12,7 +12,10 @@ app_id = 'mycompany.myproduct.subproduct.version'
 title_font = ("Arial", 14)
 content_font = ("Arial", 12)
 ICON_PATH = "Icon.ico"
-
+# the column names for a valid csv file
+COLUMNS = ["encounterId", "end_tidal_co2", "feed_vol", "feed_vol_adm", "fio2", "fio2_ratio", "insp_time",
+           "oxygen_flow_rate", "peep", "pip", "resp_rate", "sip", "tidal_vol", "tidal_vol_actual", "tidal_vol_kg",
+           "tidal_vol_spon", "bmi", "referral"]
 user_list = []
 FILE_NAME = "currentUser.pkl"
 
@@ -22,7 +25,16 @@ def initialise_objects(file_path, init_user=False):
     global user_list
     # clearing the user list, so it can be updated using fetch_user_list()
     user_list.clear()
-    patients = fetch_patients(file_path)
+    try:
+        patients = fetch_patients(file_path)
+        # Index error indicates problem with inputted csv
+    except Exception as e:
+        if isinstance(e, ValueError):
+            tkm.showerror("Column Error!", "The inputted csv is of the incorrect format!")
+        else:
+            tkm.showerror("File not found", "The file at " + str(file_path) + " was not found!")
+        return False
+
     if init_user:
         user_list = fetch_user_list()
     return patients
@@ -31,29 +43,23 @@ def initialise_objects(file_path, init_user=False):
 def fetch_patients(file_path):
     patients = []
     if file_path:
-        try:
-            with open(file_path, 'r', newline='') as file:
-                csv_reader = csv.reader(file)
-                next(csv_reader)
-                for row in csv_reader:
-                    # checking if csv file is too long
-                    if len(row) < 18:
-                        raise IndexError
-                    # append encounterId, end tidal co2, feed vol, feed vol adm, fio2, fio2_ratio, Insp_time
-                    # oxygen_flow_rate, peep, pip, resp rate, sip, tidal vol, tidal vol actual, tidal vol kg
-                    # tidal vol spon and bmi to patient object
-                    patients.append(
-                        Patient(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10],
-                                row[11], row[12], row[13], row[14], row[15], row[16], row[17])
-                    )
-        # Index error indicates problem with inputted csv
-        except Exception as e:
-            if isinstance(e, IndexError):
-                tkm.showerror("Error!", "The inputted csv is of the incorrect format!")
-            else:
-                tkm.showerror("File not found", "The file at " + str(file_path) + " was not found!")
-            return False
-        return patients
+        with open(file_path, 'r', newline='') as file:
+            csv_reader = csv.reader(file)
+            cols = next(csv_reader)
+            if cols != COLUMNS:
+                raise ValueError
+
+            for row in csv_reader:
+                # append encounterId, end tidal co2, feed vol, feed vol adm, fio2, fio2_ratio, Insp_time
+                # oxygen_flow_rate, peep, pip, resp rate, sip, tidal vol, tidal vol actual, tidal vol kg
+                # tidal vol spon and bmi to patient object
+                patients.append(
+                    Patient(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9],
+                            row[10],
+                            row[11], row[12], row[13], row[14], row[15], row[16], row[17])
+                )
+
+    return patients
 
 
 def fetch_user_list():
