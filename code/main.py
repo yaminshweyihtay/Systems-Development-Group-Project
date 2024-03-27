@@ -7,6 +7,7 @@ import bcrypt
 from patient import Patient
 from db_func import insert, select, update
 from user import User
+from io import StringIO
 
 APP_ID = 'mycompany.myproduct.subproduct.version'
 TITLE_FONT = ("Arial", 14)
@@ -73,13 +74,17 @@ def validate_pandas_csv(csv_data):
     # if statement to check if CSV is valid
     if list(csv_data.columns) != COLUMNS:
         return None
-
-    contains_letters = csv_data.map(lambda x: isinstance(x, str) and any(c.isalpha() for c in x))
-    any_column_contains_letters = contains_letters.any(axis=0)
-    if any_column_contains_letters.any():
-        return False
-    else:
-        return True
+    csv_string = csv_data.to_csv(index=False)
+    csv_file = StringIO(csv_string)
+    csv_reader = csv.reader(csv_file)
+    next(csv_reader)
+    for row in csv_reader:
+        if all(cell == '' or cell.replace('.', '', 1).isdigit() or (
+                cell.startswith('-') and cell[1:].replace('.', '', 1).isdigit()) for cell in row):
+            continue
+        else:
+            return False
+    return True
 
 
 def fetch_user_list():
