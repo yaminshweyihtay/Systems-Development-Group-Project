@@ -1,0 +1,4 @@
+
+tpython:S117'"XRename this local variable "X_train" to match the regular expression ^[_a-z][a-z0-9_]*$.(é¡çÍùÿÿÿÿ
+Mpython:S67348"5Do not use "inplace=True" when modifying a dataframe.(×àÜÍ
+Rpython:S6734:"5Do not use "inplace=True" when modifying a dataframe.(ÑåÏÝþÿÿÿÿ

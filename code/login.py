@@ -1,10 +1,10 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import LEFT, RIGHT, BOTTOM, X
-from main import login, fetch_user_list, title_font, ICON_PATH, app_id
 import ctypes
+from main import login, fetch_user_list, TITLE_FONT, ICON_PATH, APP_ID
 
-ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(app_id)
+ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(APP_ID)
 
 
 # defining the login gui class
@@ -26,10 +26,10 @@ class LoginGUI(tk.Tk):
     def create_widgets(self):
         username_frame = ttk.Frame(self)
         password_frame = ttk.Frame(self)
-        username_label = ttk.Label(username_frame, text="Username:", font=title_font)
-        username_input = ttk.Entry(username_frame, textvariable=self.username, font=title_font)
-        password_label = ttk.Label(password_frame, text="Password:", font=title_font)
-        password_input = ttk.Entry(password_frame, textvariable=self.password, show="*", font=title_font)
+        username_label = ttk.Label(username_frame, text="Username:", font=TITLE_FONT)
+        username_input = ttk.Entry(username_frame, textvariable=self.username, font=TITLE_FONT)
+        password_label = ttk.Label(password_frame, text="Password:", font=TITLE_FONT)
+        password_input = ttk.Entry(password_frame, textvariable=self.password, show="*", font=TITLE_FONT)
         login_button = ttk.Button(self, text="Submit",
                                   command=self.begin_login)
         username_label.pack(side=LEFT)

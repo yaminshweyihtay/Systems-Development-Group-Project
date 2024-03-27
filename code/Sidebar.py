@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk, LEFT, Y, X
-from AboutPage import AboutPage
+from about_page import AboutPage
 
 
 class Sidebar(tk.Frame):

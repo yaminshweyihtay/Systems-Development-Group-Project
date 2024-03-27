@@ -1,16 +1,16 @@
 import tkinter.messagebox as tkm
-from Patient import Patient
-from dbFunc import insert, select, update
 import csv
-import os
-import bcrypt
 import pickle
-from User import User
+import os
 import joblib
+import bcrypt
+from patient import Patient
+from db_func import insert, select, update
+from user import User
 
-app_id = 'mycompany.myproduct.subproduct.version'
-title_font = ("Arial", 14)
-content_font = ("Arial", 12)
+APP_ID = 'mycompany.myproduct.subproduct.version'
+TITLE_FONT = ("Arial", 14)
+CONTENT_FONT = ("Arial", 12)
 ICON_PATH = "Icon.ico"
 # the column names for a valid csv file
 COLUMNS = ["encounterId", "end_tidal_co2", "feed_vol", "feed_vol_adm", "fio2", "fio2_ratio", "insp_time",
@@ -29,8 +29,12 @@ def initialise_objects(file_path, init_user=False):
         patients = fetch_patients(file_path)
         # Index error indicates problem with inputted csv
     except Exception as e:
-        if isinstance(e, ValueError):
+        if isinstance(e, TypeError):
             tkm.showerror("Column Error!", "The inputted csv is of the incorrect format!")
+        elif isinstance(e, ValueError):
+            print(e)
+            tkm.showerror("Value Error!", "There is invalid data in the CSV! All values in the CSV must be a number "
+                                          "or empty space!")
         else:
             tkm.showerror("File not found", "The file at " + str(file_path) + " was not found!")
         return False
@@ -44,22 +48,38 @@ def fetch_patients(file_path):
     patients = []
     if file_path:
         with open(file_path, 'r', newline='') as file:
-            csv_reader = csv.reader(file)
-            cols = next(csv_reader)
+            csv_file = csv.reader(file)
+            cols = next(csv_file)
             if cols != COLUMNS:
-                raise ValueError
+                raise TypeError
 
-            for row in csv_reader:
-                # append encounterId, end tidal co2, feed vol, feed vol adm, fio2, fio2_ratio, Insp_time
-                # oxygen_flow_rate, peep, pip, resp rate, sip, tidal vol, tidal vol actual, tidal vol kg
-                # tidal vol spon and bmi to patient object
-                patients.append(
-                    Patient(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9],
-                            row[10],
-                            row[11], row[12], row[13], row[14], row[15], row[16], row[17])
-                )
-
+            for row in csv_file:
+                # Check if all values in the row are numbers or empty strings
+                if all(cell == '' or cell.replace('.', '', 1).isdigit() or (
+                        cell.startswith('-') and cell[1:].replace('.', '', 1).isdigit()) for cell in row):
+                    # If all values are numbers, append the Patient object
+                    patients.append(
+                        Patient(row[0], row[1], row[2], row[3], row[4],
+                                row[5], row[6], row[7], row[8], row[9],
+                                row[10], row[11], row[12], row[13], row[14],
+                                row[15], row[16], row[17])
+                    )
+                else:
+                    raise ValueError
     return patients
+
+
+def validate_pandas_csv(csv_data):
+    # if statement to check if CSV is valid
+    if list(csv_data.columns) != COLUMNS:
+        return None
+
+    contains_letters = csv_data.map(lambda x: isinstance(x, str) and any(c.isalpha() for c in x))
+    any_column_contains_letters = contains_letters.any(axis=0)
+    if any_column_contains_letters.any():
+        return False
+    else:
+        return True
 
 
 def fetch_user_list():
@@ -188,7 +208,7 @@ def set_password(user, newpassword):
 
 def open_main_menu():
     initialise_objects(None)
-    os.system('python MainGui.py')
+    os.system('python main_gui.py')
 
 
 def export_machine_learning_model(model):
