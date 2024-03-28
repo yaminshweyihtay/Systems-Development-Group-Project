@@ -9,15 +9,16 @@ ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(APP_ID)
 
 
 class AboutPage(tk.Toplevel):
-    def __init__(self, parent):
+    def __init__(self, parent, callback):
         super().__init__(parent)
         self.iconbitmap(ICON_PATH)
         self.title("About")
+        self.callback = callback
         self.geometry("760x300")
         self.display_frame = CTkScrollableFrame(self)
         self.display_frame.configure(corner_radius=0, fg_color="#F1F0F1")
         self.minsize(760, 300)
-
+        self.protocol("WM_DELETE_WINDOW", self.close_window)
         # Create and place GUI components
         label_title = ttk.Label(self.display_frame, text="Feeding Dashboard", font=("Arial", 18, "bold"))
         label_title.pack(pady=10)
@@ -81,7 +82,11 @@ class AboutPage(tk.Toplevel):
                                        font=("Arial", 12))
         label_developed_by.pack(pady=10)
 
-        button_close = ttk.Button(self.display_frame, text="Close", command=self.destroy)
+        button_close = ttk.Button(self.display_frame, text="Close", command=self.close_window)
         button_close.pack(pady=10)
 
         self.display_frame.pack(fill=BOTH, expand=True)
+
+    def close_window(self):
+        self.callback()
+        self.destroy()

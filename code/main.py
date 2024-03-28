@@ -2,12 +2,12 @@ import tkinter.messagebox as tkm
 import csv
 import pickle
 import os
+from io import StringIO
 import joblib
 import bcrypt
 from patient import Patient
 from db_func import insert, select, update
 from user import User
-from io import StringIO
 
 APP_ID = 'mycompany.myproduct.subproduct.version'
 TITLE_FONT = ("Arial", 14)
@@ -29,15 +29,17 @@ def initialise_objects(file_path, init_user=False):
     try:
         patients = fetch_patients(file_path)
         # Index error indicates problem with inputted csv
-    except Exception as e:
-        if isinstance(e, TypeError):
-            tkm.showerror("Column Error!", "The inputted csv is of the incorrect format!")
-        elif isinstance(e, ValueError):
-            print(e)
-            tkm.showerror("Value Error!", "There is invalid data in the CSV! All values in the CSV must be a number "
-                                          "or empty space!")
-        else:
-            tkm.showerror("File not found", "The file at " + str(file_path) + " was not found!")
+    except TypeError:
+        tkm.showerror("Column Error!", "The inputted csv is of the incorrect format!")
+        return False
+
+    except ValueError:
+        tkm.showerror("Value Error!", "There is invalid data in the CSV! All values in the CSV must be a number "
+                                      "or empty space!")
+        return False
+
+    except FileNotFoundError:
+        tkm.showerror("File not found", "The file at " + str(file_path) + " was not found!")
         return False
 
     if init_user:
@@ -48,7 +50,7 @@ def initialise_objects(file_path, init_user=False):
 def fetch_patients(file_path):
     patients = []
     if file_path:
-        with open(file_path, 'r', newline='') as file:
+        with open(file_path, 'r', newline='', encoding='utf-8') as file:
             csv_file = csv.reader(file)
             cols = next(csv_file)
             if cols != COLUMNS:
@@ -82,8 +84,7 @@ def validate_pandas_csv(csv_data):
         if all(cell == '' or cell.replace('.', '', 1).isdigit() or (
                 cell.startswith('-') and cell[1:].replace('.', '', 1).isdigit()) for cell in row):
             continue
-        else:
-            return False
+        return False
     return True
 
 
@@ -114,19 +115,18 @@ def login(username=None, password=None, app=None):
     if user_to_login is False:
         tkm.showerror("Error", "User not found!")
         return False
-    else:
-        salt = user_to_login.get_salt()
-        password_to_check = user_to_login.get_password()
-        if check_password(salt, password, password_to_check):
-            # if password is correct assign the current user to the selected user object
-            current_user = user_to_login
-            save_current_user()
-            app.destroy()
-            open_main_menu()
-            return True
-        else:
-            tkm.showerror("Failure", "Password incorrect!")
-            return False
+
+    salt = user_to_login.get_salt()
+    password_to_check = user_to_login.get_password()
+    if check_password(salt, password, password_to_check):
+        # if password is correct assign the current user to the selected user object
+        current_user = user_to_login
+        save_current_user()
+        app.destroy()
+        open_main_menu()
+        return True
+    tkm.showerror("Failure", "Password incorrect!")
+    return False
 
 
 def save_current_user():

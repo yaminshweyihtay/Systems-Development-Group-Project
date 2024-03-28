@@ -48,7 +48,7 @@ class CsvViewer(tk.Frame):
 
     def display_csv_data(self, csv_viewer, status_label):
         try:
-            with open(self.file_path, 'r', newline='') as file:
+            with open(self.file_path, 'r', newline='', encoding='utf-8') as file:
                 csv_reader = csv.reader(file)
                 header = next(csv_reader)  # Read the header row
                 csv_viewer.delete(*csv_viewer.get_children())  # Clear the current data

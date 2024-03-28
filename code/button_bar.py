@@ -1,4 +1,4 @@
-import tkinter.ttk as ttk
+from tkinter import ttk
 from tkinter import LEFT
 from filter_window import FilterWindow
 

@@ -13,6 +13,8 @@ class Sidebar(tk.Frame):
         self.pack(side=LEFT, fill=Y)
         self.button_style = ttk.Style()
         self.button_style.configure("Coloured.TButton", background="gray", padding=10)
+        self.about_button = ttk.Button(self, text="About", style=self.button_colour,
+                                       command=self.open_about_page)
         self.create_widgets()
 
     def create_widgets(self):
@@ -25,12 +27,15 @@ class Sidebar(tk.Frame):
         accounts_button = ttk.Button(self, text="Accounts", style=self.button_colour,
                                      command=lambda: self.display_callback(3))
 
-        about_button = ttk.Button(self, text="About", style=self.button_colour, command=self.open_about_page)
         upload_csv_button.pack(pady=15, fill=X)
         analyse_csv_button.pack(pady=15, fill=X)
         check_patient_button.pack(pady=15, fill=X)
         accounts_button.pack(pady=15, fill=X)
-        about_button.pack(pady=15, fill=X)
+        self.about_button.pack(pady=15, fill=X)
 
     def open_about_page(self):
-        AboutPage(self)
+        self.about_button.state(["disabled"])
+        AboutPage(self, self.reset_about_button)
+
+    def reset_about_button(self):
+        self.about_button.state(["!disabled"])

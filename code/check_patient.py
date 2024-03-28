@@ -65,13 +65,13 @@ class CheckPatient(CTkScrollableFrame):
             try:
                 if not inputs.get():
                     raise IndexError
-                else:
-                    float_value = float(inputs.get())
-                    converted_inputs.append(float_value)
-            except Exception as e:
-                if isinstance(e, IndexError):
-                    tkm.showerror("Invalid input", "All text fields must be inputted into!")
-                else:
-                    tkm.showerror("Invalid input", "The inputted values must be of numerical form!")
+
+                float_value = float(inputs.get())
+                converted_inputs.append(float_value)
+            except IndexError:
+                tkm.showerror("Invalid input", "All text fields must be inputted into!")
+                return False
+            except ValueError:
+                tkm.showerror("Invalid input", "The inputted values must be of numerical form!")
                 return False
         return np.array(converted_inputs)

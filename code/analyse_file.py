@@ -4,7 +4,7 @@ import tkinter.messagebox as tkm
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 import pandas as pd
-from main import export_machine_learning_model, TITLE_FONT, validate_pandas_csv
+from main import export_machine_learning_model, TITLE_FONT, CONTENT_FONT, validate_pandas_csv
 
 
 # inherits from csv viewer
@@ -15,34 +15,51 @@ class AnalyseFile(tk.Frame):
 
     def create_widgets(self):
         title_label = ttk.Label(self, text="Upload patient csv to train machine learning algorithm", font=TITLE_FONT)
+
+        progress_label = ttk.Label(self, text="Machine learning in progress:", font=CONTENT_FONT)
+
         progress_bar = ttk.Progressbar(self, orient=HORIZONTAL)
         upload_button = ttk.Button(self, text="CLick here to upload file",
-                                   command=lambda: self.do_machine_learning(progress_bar))
+                                   command=lambda: self.do_machine_learning(progress_bar, progress_label,
+                                                                            upload_button))
 
         title_label.pack(side=TOP)
         upload_button.pack(side=TOP, pady=20, fill=X)
 
-    def do_machine_learning(self, progress_bar):
+    def do_machine_learning(self, progress_bar, progress_label, upload_button):
+        upload_button.state(["disabled"])
+        progress_label.pack(fill=BOTH)
         progress_bar.pack(fill=BOTH)
         try:
             csv_data = self.open_csv()
-        except Exception as e:
-            if isinstance(e, ValueError):
-                tkm.showerror("CSV Data Error!",
-                              "The data in the CSV is invalid, all values should be numerical or empty!")
-            elif isinstance(e, IndexError):
-                tkm.showerror("CSV Format Error!", "The CSV is not formatted correctly!")
+        except ValueError:
+            tkm.showerror("CSV Data Error!",
+                          "The data in the CSV is invalid, all values should be numerical or empty!")
+        except IndexError:
+            tkm.showerror("CSV Format Error!", "The CSV is not formatted correctly!")
+
+        except FileNotFoundError:
+            pass
+
         else:
             progress_bar.step(10)
+            # setting X and y to map the referral feature
             X = csv_data.drop(['referral'], axis=1)
             y = csv_data['referral']
+            # Splitting the dataset into training data
             X_train, _, y_train, _ = train_test_split(X, y, test_size=0.3, random_state=1)
             progress_bar.step(10)
+            # Training the machine learning model
             model = RandomForestClassifier(max_depth=7, n_jobs=-1)
             model.fit(X_train, y_train)
             progress_bar.step(79.9)
             export_machine_learning_model(model)
             tkm.showinfo("Complete!", "Machine learning completed!")
+            upload_button.state(["!disabled"])
+            progress_label.pack_forget()
+        finally:
+            upload_button.state(["!disabled"])
+            progress_label.pack_forget()
 
     @staticmethod
     def open_csv():
