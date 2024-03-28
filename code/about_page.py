@@ -73,7 +73,7 @@ class AboutPage(tk.Toplevel):
         text_requirements.insert(tk.END, """
         • Python 3.x
         • Tkinter for GUI
-        • MySQL Database (Optional)
+        • MySQL Database
         """)
         text_requirements.config(state="disabled", font=("Arial", 12))
         text_requirements.pack(fill="both", expand=True, padx=10)
