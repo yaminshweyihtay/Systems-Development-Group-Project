@@ -7,7 +7,6 @@ import pandas as pd
 from main import export_machine_learning_model, TITLE_FONT, CONTENT_FONT, validate_pandas_csv
 
 
-# inherits from csv viewer
 class AnalyseFile(tk.Frame):
     def __init__(self, container):
         super().__init__(container)
@@ -19,7 +18,7 @@ class AnalyseFile(tk.Frame):
         progress_label = ttk.Label(self, text="Machine learning in progress:", font=CONTENT_FONT)
 
         progress_bar = ttk.Progressbar(self, orient=HORIZONTAL)
-        upload_button = ttk.Button(self, text="CLick here to upload file",
+        upload_button = ttk.Button(self, text="Click here to upload file",
                                    command=lambda: self.do_machine_learning(progress_bar, progress_label,
                                                                             upload_button))
 
