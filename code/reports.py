@@ -9,7 +9,6 @@ class Report(tk.Toplevel):
         super().__init__(master)
         
         self.create_widgets()
-        self.pack()
 
     def create_widgets(self):
         self.open_button = Button(self)
