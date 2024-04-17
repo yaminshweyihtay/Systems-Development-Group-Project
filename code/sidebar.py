@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, LEFT, Y, X
 from about_page import AboutPage
+from reports import Report
 import os
 
 
@@ -16,6 +17,9 @@ class Sidebar(tk.Frame):
         self.button_style.configure("Coloured.TButton", background="gray", padding=10)
         self.about_button = ttk.Button(self, text="About", style=self.button_colour,
                                        command=self.open_about_page)
+        
+        self.reports_button = ttk.Button(self, text="Reports",style=self.button_colour,command=self.run_reports)
+        
         self.create_widgets()
 
     def create_widgets(self):
@@ -27,14 +31,14 @@ class Sidebar(tk.Frame):
                                           command=lambda: self.display_callback(2))
         accounts_button = ttk.Button(self, text="Accounts", style=self.button_colour,
                                      command=lambda: self.display_callback(3))
-        reports_button = ttk.Button(self, text="Reports",style=self.button_colour,command=self.run_reports)
+        
 
         upload_csv_button.pack(pady=15, fill=X)
         analyse_csv_button.pack(pady=15, fill=X)
         check_patient_button.pack(pady=15, fill=X)
         accounts_button.pack(pady=15, fill=X)
         self.about_button.pack(pady=15, fill=X)
-        reports_button.pack(pady=15,fill=X)
+        self.reports_button.pack(pady=15,fill=X)
 
     def open_about_page(self):
         self.about_button.state(["disabled"])
@@ -44,4 +48,5 @@ class Sidebar(tk.Frame):
         self.about_button.state(["!disabled"])
 
     def run_reports(self):
-        os.system("reports.py")
+        self.reports_button.state(["!disabled"])
+        Report(self)
