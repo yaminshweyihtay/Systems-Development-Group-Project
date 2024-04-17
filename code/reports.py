@@ -79,6 +79,8 @@ class Report(tk.Toplevel):
 
         if valid is None:
             tkm.showerror("CSV Format Error!", "The CSV is not formatted correctly!")
+            self.callback()
             return None
         tkm.showerror("CSV Data Error!",
                       "The data in the CSV is invalid, all values should be numerical or empty!")
+        self.callback()
