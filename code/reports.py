@@ -1,6 +1,10 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
+from tkinter import filedialog
+
+FILE_PATH = filedialog.askopenfilename(title="Open CSV File", filetypes=[("CSV files", "*.csv")])
+
 df = pd.read_csv('Feeding Dashboard data.csv')
 
 numberofrows = len(df)

@@ -6,7 +6,7 @@ DATABASE_NAME = "feedingdashboard"
 HOST_ADDRESS = "localhost"
 USERNAME = "root"
 # change this to your root password for your DBMS (MySql)
-PASSWD = "qwerty"
+PASSWD = "root"
 
 CONNECTION_ERROR_MSG = "Unable to connect to the database; please check credentials!"
 CONNECTION_ERROR_TITLE = "Connection error!"
