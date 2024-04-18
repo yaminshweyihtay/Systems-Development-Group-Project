@@ -1,3 +1,4 @@
+import platform
 import tkinter.messagebox as tkm
 import csv
 import pickle
@@ -213,7 +214,10 @@ def set_password(user, newpassword):
 
 def open_main_menu():
     initialise_objects(None)
-    os.system('python main_gui.py')
+    if platform.system() == 'Windows':
+        os.system('python main_gui.py')
+    else:
+        os.system('python3 main_gui.py')
 
 
 def export_machine_learning_model(model):
