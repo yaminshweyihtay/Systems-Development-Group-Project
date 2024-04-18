@@ -1,3 +1,4 @@
+import platform
 import tkinter as tk
 from tkinter import ttk
 from tkinter import BOTH
@@ -5,7 +6,8 @@ import ctypes
 from customtkinter import CTkScrollableFrame
 from main import ICON_PATH, APP_ID
 
-ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(APP_ID)
+if platform.system() == 'Windows':
+    ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(APP_ID)
 
 
 class AboutPage(tk.Toplevel):

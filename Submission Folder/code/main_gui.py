@@ -1,4 +1,5 @@
 import os
+import platform
 import tkinter as tk
 from tkinter import LEFT, Y, BOTH
 import ctypes
@@ -9,7 +10,8 @@ from check_patient import CheckPatient
 from user_management import UserManagement
 from main import load_current_user, ICON_PATH, APP_ID
 
-ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(APP_ID)
+if platform.system() == 'Windows':
+    ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(APP_ID)
 
 
 class MainGui(tk.Tk):

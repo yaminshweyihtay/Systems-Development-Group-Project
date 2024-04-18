@@ -1,11 +1,14 @@
 import ctypes
+import platform
+
 import pandas as pd
 import matplotlib.pyplot as plt
 import tkinter as tk
 from main import validate_pandas_csv, TITLE_FONT, APP_ID, ICON_PATH
 from tkinter import ttk, filedialog, TOP, messagebox as tkm, X
 
-ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(APP_ID)
+if platform.system() == 'Windows':
+    ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(APP_ID)
 
 
 class Report(tk.Toplevel):

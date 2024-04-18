@@ -1,10 +1,12 @@
+import platform
 import tkinter as tk
 from tkinter import ttk
 from tkinter import LEFT, RIGHT, BOTTOM, X
 import ctypes
 from main import login, fetch_user_list, TITLE_FONT, ICON_PATH, APP_ID
 
-ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(APP_ID)
+if platform.system() == 'Windows':
+    ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(APP_ID)
 
 
 # defining the login gui class
